@@ -1,0 +1,3 @@
+[submodule "WF_NTP"]
+	path = WF_NTP
+	url = git@github.com:impact27/WF_NTP.git
