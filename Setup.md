@@ -11,6 +11,7 @@ Dans les sections qui vont suivre sont détaillés les étapes d'installation po
 
 ## Installation d'Anaconda pour Python3.8
 1. télécharger le script d'installation d'anaconda (`wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh`)
+   > À noter que l'exécutable télécharger par la commande wget est pour un système dont l'architecture est x86 (pour vérifier tapper `arch` ou `uname -m` dans votre terminal)
 2. ajouter les droits d'exécution à l'utilisateur (`sudo chmod u+x Anaconda3-2020.02-Linux-x86_64.sh`) et exécuter le script d'installation
 3. Ajouter le répertoire `anaconda3/bin` au `PATH` en exportant celui-ci au sein de votre `bashrc` ou `zshrc` (`PATH="$HOME/anaconda3/bin:$HOME/.local/bin:$PATH"`)
 4. fermer et réouvrir votre shell et lancer la commande `conda init bash` (ou `conda init zsh` en fonction de votre shell)
@@ -21,23 +22,64 @@ L'installation est complète.
 
 ## Installation de WF_NTP
 1. Créer un environement conda virtuel avec la commande `conda create -n v_wf_ntp python=3.8` et activer le (`conda activate  v_wf_ntp`)
-2. Installer la librairie `Numpy` via la commande `conda install -f conda_wf_ntp_requirements.txt`
+2. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande `conda install -f conda_wf_ntp_requirements.txt`
 3. Enfin copier le fichier `run_script/multiwormtracker_app` à la racine du répertoire `WF_NTP`
 
-L'installation de `WF_NTP` est complète, vous pouvez lancer le programme en effectuant la commande `./multiwormtracker_app`.
+L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec la commande `./multiwormtracker_app`.
 
 
-## Installation de CeleST
+## Exécution de CeleST
+### Étapes préliminaires
 Afin de pouvoir lancer CeleST, plusieurs étapes préliminaires sont nécessaires:
 1. télécharger le code source à partir de http://celest.mbb.rutgers.edu/
-2. *(en cours)* étape d'installation de matlab
-3. essayer de voir si des étapes suppllémentaires sont nécessaire.
+2. installer le logiciel **Octave** ([ici](https://wiki.octave.org/Octave_for_GNU/Linux) pour les systèmes Linux ou encore [là](https://wiki.octave.org/Octave_for_macOS) pour MacOS)
+
+### Octave
+L'installation du logiciel Octave est simple.
+Si vous êtes *root* et sous un système *Ubuntu*, vous avez simplement à effectuer les commandes:
+```bash
+apt install octave
+apt install liboctave-dev  # development files
+```
+Pour un système Linux différent, vous trouverez la démarche sur la page [wiki d'Octave](https://wiki.octave.org/Octave_for_GNU/Linux)
+
+Dans le cas où vous n'êtes pas *root*, il est possible d'installer Octave en tant que distribution indépendante au sein d'Anaconda.
+Dans ce cas vous pouvez l'ajouter à l'environnement conda `v_wf_ntp`  (de sorte à avoir un environnement unique) où bien dans un second environnement conda.
+Une fois l'environnement activé, effectué la commande:
+```bash
+conda install -c conda-forge octave
+```
+Il est également possible d'installer Octave avec `flatpak`:
+```bash
+flatpak install flathub org.octave.Octave
+```
+
+L'installation d'Octave est complète. Vous pouvez le lancer via votre centre d'applications.
+
+### CeleST
+1. décompresser l'archive `'source code.zip'`:
+   ```bash
+   unzip 'source code.zip' -d /path/to/the/desired/directory/celest
+   ```
+2. Le code de `CeleST` est en Matlab, de plus il a été rédigé il y a quelques années et ne semble pas être maintenu. Dans le répertoire contenant le code source (`source code`) effectué la modification suivante:
+   ```bash
+   # fichier CeleST.m ligne 174
+   tableVideos = uitable(...,'ColumnEditable',[],...);
+   # remplacer les crochets par:
+   tableVideos = uitable(...,'ColumnEditable',false,...);
+   ```
+`CeleST` est prêt à être lancer avec `Octave`.
+
+### Exécution
+1. Lancer `Octave`.
+2. Modifier le répertoire courant afin que celui-ci soit le répertoire contenant le code source (voir image).
+![octave change directory](.assets/octave_change_directory.png)
+3. clique-droit sur le fichier `CeleST.m` et sélectionner `Run`:
+![CeleST run selection](.assets/CeleST_m_run_selection.png)
+
+L'interface de `CeleST` s'ouvre, vous pouvez alors utiliser le programme.
 
 
-### Octave GNU à la place de Matlab
-1. installer [Octave for GNU/Linux](https://wiki.octave.org/Octave_for_GNU/Linux#Distribution_independent). Utiliser la méthode avec `flatpak` qui consiste à exécuter la commande:
-    ```bash
-    flatpak install flathub org.octave.Octave
-    ```
-2. Problème pour lancer CeleST dans Octave.
+*Note: Les différentes étapes ont été réalisées sur un système Ubuntu22.04, a priori cela devrait être identique sur Ubuntu21.04*
 
+*TODO: Tester sur un poste avec MacOS*
