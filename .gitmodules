@@ -1,3 +1,6 @@
 [submodule "WF_NTP"]
 	path = WF_NTP
 	url = git@github.com:impact27/WF_NTP.git
+[submodule "CeleST"]
+	path = CeleST
+	url = git@github.com:DCS-LCSR/CeleST.git
