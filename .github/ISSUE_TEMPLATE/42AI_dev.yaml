@@ -1,0 +1,71 @@
+name: 🤖 Developper
+description: Issue for Agile methodology 💻
+title: "type(scope): description"
+labels: ["feature", "triage"]
+assignees:
+  -  JBarmentlo
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+  - type: textarea
+    id: description
+    attributes:
+      label: User Story
+      description: |
+        A user story is a software requirement formulated in everyday language and is deliberately kept short.
+
+        There is 2 rules it should respect:
+        - ⚛️ ATOMIC: It should only address one thing at a time
+        - ⏳ CONCISE: Your issue should be doable in under a day.
+
+      placeholder: User Story
+      value: |
+        As a [persona],
+        I want to [functionality],
+        so that [value (persona focused)].
+    validations:
+      required: true
+  - type: textarea
+    id: Acceptance-Criteria
+    attributes:
+      label: Acceptance Criteria
+      description: |
+        Acceptance Criteria (AC) provide a detailed scope of a user’s requirements.
+        They help the team to understand the value of the story and set expectations as to when a team should consider something done.
+
+        AC Goals
+          - to clarify what the team should build before they start work
+          - to ensure everyone has a common understanding of the problem/need of the customer
+          - to help team members know when the story is complete
+          - to help verify the story via automated tests
+      placeholder: Acceptance Criteria
+      value: |
+        - [ ] Condition one
+        - [ ] Condition two
+        - [ ] Condition three
+    validations:
+      required: true
+  - type: textarea
+    id: Definition-of-Done
+    attributes:
+      label: Definition of Done
+      description: |
+        Definition of Done (DoD) is a list of requirements that a user story must adhere to for the team to call it complete.
+
+        The difference between DoD and Acceptance Criteria is that the DoD is common for all the User Stories, where as the Acceptance Criteria is specific to a user story
+      placeholder: Definition of Done
+      value: |
+        - [ ] Product Owner accepts the User Story
+        - [ ] Acceptance criteria met
+        - [ ] New data has been `dvc push`
+
+        Defined by CICD:
+        - Code reviewed
+        - black compliant
+        - Unit tests passed
+        - Functional tests passed
+        - Non-Functional requirements met
+    validations:
+      required: true
