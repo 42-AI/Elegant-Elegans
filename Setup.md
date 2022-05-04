@@ -1,20 +1,20 @@
 # Installation de l'environnement
 
 - [Installation de l'environnement](#installation-de-lenvironnement)
-	- [Introduction](#introduction)
-	- [Installation d'Anaconda pour Python3.8](#installation-danaconda-pour-python38)
-	- [Installation de WF_NTP](#installation-de-wf_ntp)
-	- [Exécution de CeleST](#exécution-de-celest)
-		- [Étapes préliminaires](#étapes-préliminaires)
-		- [Octave](#octave)
-		- [CeleST](#celest)
-		- [Exécution](#exécution)
-			- [Mode Graphique](#mode-graphique)
-			- [Commandline](#commandline)
+  - [Introduction](#introduction)
+  - [Installation d'Anaconda pour Python3.8](#installation-danaconda-pour-python38)
+  - [Installation de WF_NTP](#installation-de-wf_ntp)
+  - [Exécution de CeleST](#exécution-de-celest)
+    - [Étapes préliminaires](#étapes-préliminaires)
+    - [Octave](#octave)
+    - [CeleST](#celest)
+      - [Exécution](#exécution)
+        - [Interface graphique](#interface-graphique)
+        - [interface ligne de commande](#interface-ligne-de-commande)
 
 ## Introduction
 Comme mentionné dans le Readme à la racine du répertoire, ce projet s'appuie sur 2 outils utilisés dans le monde de la recherche en biologie:
-* [CeleST](https://dcs-lcsr.github.io/CeleST/) qui est un programme développé en Matlab
+* [CeleST](https://dcs-lcsr.github.io/CeleST/) (version MacOS) qui est un programme développé en Matlab
 * [WF\NTP](https://github.com/impact27/WF_NTP) qui est un programme développé en Python
 À ce jour, ces 2 outils ne semblent plus être actif en terme de développement et maintenance mais restent tout de même utilisé par la communauté scientifique.
 
@@ -76,18 +76,23 @@ L'installation d'Octave est complète. Vous pouvez le lancer via votre centre d'
    ```bash
    unzip 'source code.zip' -d /path/to/the/desired/directory/celest
    ```
-2. Le code de `CeleST` est en Matlab, de plus il a été rédigé il y a quelques années et ne semble pas être maintenu. Dans le répertoire contenant le code source (`source code`) effectué la modification suivante:
-   ```bash
-   # fichier CeleST.m ligne 174
-   tableVideos = uitable(...,'ColumnEditable',[],...);
-   # remplacer les crochets par:
-   tableVideos = uitable(...,'ColumnEditable',false,...);
-   ```
+2. Le code de `CeleST` est en Matlab, de plus il a été rédigé il y a quelques années et ne semble pas être maintenu. Deux répertoires sont présents dans l'archive `CeleST`:
+   *  `__MACOSX` (code source pour MacOS)
+   *  `source code` (code source pour Linux)
+   1. **Installation Linux**: Dans le répertoire contenant le code source (`source code`) effectué la modification suivante:
+      ```bash
+      # fichier CeleST.m ligne 174
+      tableVideos = uitable(...,'ColumnEditable',[],...);
+      # remplacer les crochets par:
+      tableVideos = uitable(...,'ColumnEditable',false,...);
+      ```
+   2. **Installation MacOS**: #TODO
+ 
 `CeleST` est prêt à être lancer avec `Octave`.
 
-### Exécution
+#### Exécution
 
-#### Mode Graphique
+##### Interface graphique
 
 1. Lancer `Octave`
 2. Modifier le répertoire courant afin que celui-ci soit le répertoire contenant le code source (voir image).
@@ -97,11 +102,9 @@ L'installation d'Octave est complète. Vous pouvez le lancer via votre centre d'
 
 L'interface de `CeleST` s'ouvre, vous pouvez alors utiliser le programme.
 
-#### Commandline
+##### interface ligne de commande
 
 1. `cd source_code`
 2. `octave --eval "run(CeleST.m)"`
 
 *Note: Les différentes étapes ont été réalisées sur un système Ubuntu22.04, a priori cela devrait être identique sur Ubuntu21.04*
-
-*TODO: Tester sur un poste avec MacOS*
