@@ -17,4 +17,5 @@ git clone --recurse-submodules git@github.com:42-AI/Elegant-Elegans.git
 ```
 
 ## Contributors
-Roberto Catini [rcatini](https://github.com/rcatini) 
+* Roberto Catini [rcatini](https://github.com/rcatini) 
+* [Colomban Scully](https://github.com/COTHSC)
