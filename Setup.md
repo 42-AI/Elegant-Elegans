@@ -38,7 +38,7 @@ L'installation est complète.
 1. Créer un environement conda virtuel avec la commande `conda create -n v_wf_ntp python=3.8` et activer le (`conda activate  v_wf_ntp`)
 1.1 Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge `conda config --append channels conda-forge` 
 2. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande `conda install -f conda_wf_ntp_requirements.txt`
-2.2 Si vous avez une 'packages not found error', essayez d'ajouter le channel conda-forge 'conda config --append channels conda-forge'
+2.2 Si vous avez une `packages not found error`, essayez d'ajouter le channel conda-forge `conda config --append channels conda-forge`
 3. Enfin copier le fichier `run_script/multiwormtracker_app` à la racine du répertoire `WF_NTP`
 
 L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec la commande `./multiwormtracker_app`.
