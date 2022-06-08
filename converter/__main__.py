@@ -1,4 +1,5 @@
 import argparse
+import sys
 import os
 
 # ########################################################################## #
@@ -16,10 +17,16 @@ def parser() -> dict:
     Return:
     -------
     """
+    parser = argparse.ArgumentParser(description='Process a directory')
+    arg = {}
+    arg = parser.add_argument('--path', help='dir name', dest="arg")
+    arg = parser.parse_args()
+    return arg
+    #return parser.parse_args()
     # use argparse.ArgumentParser()
     # then add_argument method
     # see https://docs.python.org/3/library/argparse.html
-    return parser.parse_args()
+    # return parser.parse_args()
 
 
 def path_checker(path: str):
@@ -101,17 +108,20 @@ def tiff_files_checker(metadata):
 if __name__ == '__main__':
     # parsing the argument(s)
     args = parser()
-    dir_path = args['path']
-
+    print("coucouuuuu")
+    print(args)
+    print("loool")
+    dir_path = args.arg #args['path']
+    print(dir_path)
     # checker of the path
     path_checker(dir_path)
 
     # checker of the inside of the path
     path_inside_checker(dir_path)
 
-    # # Parsing the json metadata file
+    # Parsing the json metadata file
     metadata = json_parser(dir_path)
 
-    # # checker of the tiff images based on metadata
+    # checker of the tiff images based on metadata
     tiff_files_checker(metadata)
     
