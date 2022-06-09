@@ -1,5 +1,2 @@
-import unittest
+import pytest
 
-class   TestPathChecker(unittest.TestCase):
-    def test_directory(self):
-        self.

@@ -14,19 +14,18 @@ NB_LIMIT = 100
 
 def parser() -> dict:
     """ [Description]
+        Parse arguments to get name directory as input and the video file's
+        name as output
     Return:
     -------
+        A dictionary containing the name of the path to input directory
+        and the defined name of the video file as output
+        Namespace(output='', path='')
     """
-    parser = argparse.ArgumentParser(description='Process a directory')
-    arg = {}
-    arg = parser.add_argument('--path', help='dir name', dest="arg")
-    arg = parser.parse_args()
-    return arg
-    #return parser.parse_args()
-    # use argparse.ArgumentParser()
-    # then add_argument method
-    # see https://docs.python.org/3/library/argparse.html
-    # return parser.parse_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path")
+    parser.add_argument("-o", "--output")
+    return (parser.parse_args())
 
 
 def path_checker(path: str):
@@ -50,7 +49,7 @@ def path_checker(path: str):
 def path_inside_checker(dir_path):
     """ [Description]
         Check that the files inside the directory are .tiff or .json,
-        that a .json file exists and that they are at least 100 .tiff files
+        that a .json file exists and that there are at least 100 .tiff files
     Arguments:
     ----------
         dir_path : path to directory
@@ -72,7 +71,7 @@ def path_inside_checker(dir_path):
     if num_json == 0:
         raise Exception("No .json file found")
     if num_json > 1:
-        raise Exception("More than on .json file found")
+        raise Exception("More than one .json file found")
     if num_tiff < NB_LIMIT:
         raise Exception("Number of .tiff files insufficient (min required 100)")
 
@@ -108,20 +107,19 @@ def tiff_files_checker(metadata):
 if __name__ == '__main__':
     # parsing the argument(s)
     args = parser()
-    print("coucouuuuu")
-    print(args)
-    print("loool")
-    dir_path = args.arg #args['path']
-    print(dir_path)
+
+    # print(args)
+    dir_path = args.path
+
     # checker of the path
     path_checker(dir_path)
 
     # checker of the inside of the path
     path_inside_checker(dir_path)
 
-    # Parsing the json metadata file
-    metadata = json_parser(dir_path)
+    # # Parsing the json metadata file
+    # metadata = json_parser(dir_path)
 
-    # checker of the tiff images based on metadata
-    tiff_files_checker(metadata)
+    # # checker of the tiff images based on metadata
+    # tiff_files_checker(metadata)
     
