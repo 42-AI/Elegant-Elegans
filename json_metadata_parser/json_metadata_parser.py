@@ -1,16 +1,16 @@
 from datetime import datetime
-from matplotlib.font_manager import json_load
+import json
 import cv2 as cv
 
 #Some global vars to be replaced by out from args parser
-target_directory = "../data"
+target_directory = "test_data/Default"
 interval = "Interval_ms"
 summary = "Summary"
 
 def loadMetadata(directoryPath):
     try:
         file_path = directoryPath + "/metadata.txt"
-        metadata = json_load(file_path)
+        metadata = json.load(open(file_path))
         return metadata
     except:
         print("Error trying to load metadata.txt")
@@ -40,6 +40,7 @@ def checkImages(metadata, directoryPath):
     frames = 0
     expect_frame_no = 0
     expected_frames = metadata[summary]["Frames"]
+
 
     for obj in metadata:
         if obj.startswith("Metadata-Default"):
@@ -79,9 +80,9 @@ def checkImages(metadata, directoryPath):
         print("total capture time: ", total_time_ms)
 
 def main():
-    metadata = loadMetadata("not_target_directory")
+    #metadata = loadMetadata("not_target_directory")
     metadata = loadMetadata(target_directory)
-    checkImages(metadata, "not_target_directory")
+    #checkImages(metadata, "not_target_directory")
     checkImages(metadata, target_directory)
 
 
