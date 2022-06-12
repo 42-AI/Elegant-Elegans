@@ -12,8 +12,9 @@ NB_LIMIT = 100
 #                                FUNCTIONS                                   #
 # ########################################################################## #
 
+
 def parser() -> dict:
-    """ [Description]
+    """[Description]
         Parse arguments to get name directory as input and the video file's
         name as output
     Return:
@@ -23,13 +24,18 @@ def parser() -> dict:
         Namespace(output='', path='')
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path")
-    parser.add_argument("-o", "--output")
-    return (parser.parse_args())
+    parser.add_argument(
+        "--path", type=str, required=True, help="path where source will be look in."
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+    )
+    return parser.parse_args()
 
 
 def path_checker(path: str):
-    """ [Description]
+    """[Description]
         Check the existence and access of a directory
     Arguments:
     ----------
@@ -38,7 +44,7 @@ def path_checker(path: str):
     ------
         Depends on the kind of issue encountered:
         * NotADirectoryError if the directory doesn't exist or is not a directory
-        * PermissionError if the user doesn't have access to the directory
+        * PermissionError if the user doesn't h—ave access to the directory
     """
     if not os.path.isdir(path):
         raise NotADirectoryError(path + " is not a directory.")
@@ -47,7 +53,7 @@ def path_checker(path: str):
 
 
 def path_inside_checker(dir_path):
-    """ [Description]
+    """[Description]
         Check that the files inside the directory are .tiff or .json,
         that a .json file exists and that there are at least 100 .tiff files
     Arguments:
@@ -77,8 +83,8 @@ def path_inside_checker(dir_path):
 
 
 def json_parser(dir_path):
-    """ [Description]
-    
+    """[Description]
+
     Arguments:
     ----------
         ...
@@ -89,8 +95,8 @@ def json_parser(dir_path):
 
 
 def tiff_files_checker(metadata):
-    """ [Description]
-    
+    """[Description]
+
     Arguments:
     ----------
         ...
@@ -104,7 +110,7 @@ def tiff_files_checker(metadata):
 #                                   MAIN                                     #
 # ########################################################################## #
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # parsing the argument(s)
     args = parser()
 
@@ -122,4 +128,3 @@ if __name__ == '__main__':
 
     # # checker of the tiff images based on metadata
     # tiff_files_checker(metadata)
-    
