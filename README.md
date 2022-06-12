@@ -16,6 +16,23 @@ The present repository include a submodule named `WF_NTP`. To clone this reposit
 git clone --recurse-submodules git@github.com:42-AI/Elegant-Elegans.git
 ```
 
+## Pre-commit hooks
+
+Install pre-commit
+```sh
+pip install pre-commit
+```
+
+Install the hooks with:
+```sh
+pre-commit install
+```
+
+run the hooks with
+```sh
+pre-commit run -a                                                                                    
+```
+
 ## Contributors
 * Roberto Catini [rcatini](https://github.com/rcatini) 
 * Colomban Scully [SOTHSC](https://github.com/COTHSC)
