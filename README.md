@@ -20,5 +20,6 @@ git clone --recurse-submodules git@github.com:42-AI/Elegant-Elegans.git
 * Roberto Catini [rcatini](https://github.com/rcatini) 
 * Colomban Scully [SOTHSC](https://github.com/COTHSC)
 * Jee Hyun Park [jhparkkkk](https://github.com/jhparkkkk)
-* Dorlin Shellen [shell02](https://github.com/shell02)
+* Shellen Dorlin [shell02](https://github.com/shell02)
 * Constant Alle [cnstll](https://github.com/cnstll)
+* Perrine Gros [p-lg-ux](https://github.com/p-lg-ux)
