@@ -3,7 +3,6 @@ import os
 from converter.__main__ import path_checker, path_inside_checker
 import shutil
 
-# Create directories for testing
 def create_repertories():
     test1 = os.path.join(os.getcwd(), "test1")
     if not os.path.exists(test1):

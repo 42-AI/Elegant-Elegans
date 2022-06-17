@@ -14,7 +14,7 @@ NB_LIMIT = 100
 
 
 def parser() -> dict:
-    """[Description]
+    """
         Parse arguments to get name directory as input and the video file's
         name as output
     Return:
@@ -29,13 +29,13 @@ def parser() -> dict:
     )
     parser.add_argument(
         "-o",
-        "--output",
+        "--output", ype=str, required=True, help="Name of the converted video."
     )
     return parser.parse_args()
 
 
 def path_checker(path: str):
-    """[Description]
+    """
         Check the existence and access of a directory
     Arguments:
     ----------
@@ -53,7 +53,7 @@ def path_checker(path: str):
 
 
 def path_inside_checker(dir_path):
-    """[Description]
+    """
         Check that the files inside the directory are .tiff or .json,
         that a .json file exists and that there are at least 100 .tiff files
     Arguments:
@@ -80,31 +80,6 @@ def path_inside_checker(dir_path):
         raise Exception("More than one .json file found")
     if num_tiff < NB_LIMIT:
         raise Exception("Number of .tiff files insufficient (min required 100)")
-
-
-def json_parser(dir_path):
-    """[Description]
-
-    Arguments:
-    ----------
-        ...
-    Raises:
-        ...
-    """
-    pass
-
-
-def tiff_files_checker(metadata):
-    """[Description]
-
-    Arguments:
-    ----------
-        ...
-    Raises:
-        ...
-    """
-    pass
-
 
 # ########################################################################## #
 #                                   MAIN                                     #
