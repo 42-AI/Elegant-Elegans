@@ -1,5 +1,9 @@
 import pytest
 import os
+import sys
+
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
+
 from converter.__main__ import path_checker, path_inside_checker
 import shutil
 
