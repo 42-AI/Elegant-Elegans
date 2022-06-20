@@ -106,7 +106,8 @@ def loadMetadata(directoryPath):
         metadata = json.load(open(file_path))
         return metadata
     except:
-        print("Error trying to load metadata.txt")
+        raise Exception("Error trying to load metadata.txt")
+        #print("Error trying to load metadata.txt")
 
 
 def padMicroSecs(timestamp):
@@ -122,6 +123,7 @@ def getStartTime(metadata):
         start_time = datetime.strptime(strTime_without_timezone, "%Y-%m-%d %H:%M:%S.%f")
         return start_time
     except:
+        raise Exception("could not find start time in metadata file")
         print("could not find start time in metadata file")
 
 def loadTif(tifPath):
@@ -142,14 +144,14 @@ def checkImages(metadata, directoryPath):
 
                 cv_img = loadTif(directoryPath + "/" + filename)
                 if cv_img is None:
-                    raise Exception("File not found")
+                    raise Exception("Could not load file: " + directoryPath + "/" + filename)
                     #print("could not load: ", directoryPath + "/" + filename, " aborting")
                     #return
 
                 actual_height, actual_width, layers = cv_img.shape
                 expected_width, expected_height = metadata[obj]["Width"], metadata[obj]["Height"]
                 if actual_height != expected_height or actual_width != expected_width:
-                    raise Exception("Mismatched dimensions")
+                    raise Exception("Mismatched image size: frame: ", directoryPath + "/" + filename)
                     #print(".tif metadata mismatch on frame: ", directoryPath + "/" + filename, " aborting")
                     #return
                 
@@ -162,7 +164,7 @@ def checkImages(metadata, directoryPath):
 
                 # checks for missing frames
                 if currentFrame != expect_frame_no:
-                    raise Exception("Mismatched frame number")
+                    raise Exception("Mismatched frame number: expected frame no: ", expect_frame_no, " but got frame no: ", currentFrame)
                     #print("expected frame no: ", expect_frame_no, " but got frame no: ", currentFrame, " check for missing frames")
                     #break
                 tmp = total_time_ms
