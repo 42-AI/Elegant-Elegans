@@ -1,3 +1,4 @@
+from importlib.metadata import metadata
 import cv2
 import numpy as np
 import os
@@ -26,13 +27,15 @@ def select_video_compression_format(format):
     return video_compression
 
 
-def tiff_images_to_video(dir_path, format, video_name=None):
+def tiff_images_to_video(dir_path, video_name, format, metadata=None):
     """Create a video file in the current directory from a set of tif images
 
     Args:
-        dir_path (string): directory path of the tif images to convert
-        format (string): compression format for the final video
+        dir_path (string): directory path to tiff images to convert
         video_name (string, optional): radical of the video filename. Defaults to None.
+        format (string): compression format for the final video
+        metadata (dict): contains a list of file_names, the average fps, 
+        the frame width and the frame length
     """
     # Store all files from a dir_path in an list and sort file in ascending order
     file_listing = os.listdir(dir_path)
@@ -42,7 +45,6 @@ def tiff_images_to_video(dir_path, format, video_name=None):
     video_compression = select_video_compression_format(format)
     fps = 25
     frame_size = (2048, 2048)
-    video_name = video_name if video_name is not None else dir_path
     
     # Define parameter used for VideoWriter
     video = cv2.VideoWriter(video_name + '.' + format, video_compression, fps, frame_size)
@@ -52,7 +54,10 @@ def tiff_images_to_video(dir_path, format, video_name=None):
         if file_name.endswith(".tif"):
             img = cv2.VideoCapture(dir_path + file_name)
             ret, frame = img.read()
-            video.write(frame)
+            if ret == True:
+                video.write(frame)
+            else:
+                raise RuntimeError(f"Input image corrupted - {file_name}")
     video.release()
 
 # Before launch:
@@ -60,9 +65,9 @@ def tiff_images_to_video(dir_path, format, video_name=None):
 # > cd imgs
 # > aws s3 cp s3://BUCKET/FOLDER . --recursive
 # Change the path
-if __name__ == '__main__':
-    format = 'avi'
-    # format = 'mp4'
-    dir_path = 'imgs/'
-    video_name = "vid1"
-    tiff_images_to_video(dir_path, format, video_name)
+# if __name__ == '__main__':
+#     format = 'avi'
+#     # format = 'mp4'
+#     dir_path = 'exploration/imgs/'
+#     video_name = "vid1"
+#     tiff_images_to_video(dir_path, video_name, format)
