@@ -1,4 +1,5 @@
 import argparse
+import tiff_image_to_video
 
 # ########################################################################## #
 #                                CONSTANTS                                   #
