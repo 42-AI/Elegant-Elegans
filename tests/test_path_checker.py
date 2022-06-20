@@ -7,6 +7,7 @@ sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from converter.__main__ import path_checker, path_inside_checker
 import shutil
 
+
 def create_repertories():
     test1 = os.path.join(os.getcwd(), "test1")
     if not os.path.exists(test1):
@@ -14,22 +15,17 @@ def create_repertories():
 
 
 @pytest.mark.parametrize(
-    "path, expected",
-    [
-        (os.getcwd(), None),
-    ],
+    "path, expected", [(os.getcwd(), None),],
 )
-def test_path_checker(path, expected):
+def test_path_checker(path: str, expected: str):
     assert path_checker(path) == expected, "All good !"
 
 
 @pytest.mark.parametrize(
     "path, expected, message",
-    [
-        ("toto", NotADirectoryError, "toto is not a directory."),
-    ],
+    [("toto", NotADirectoryError, "toto is not a directory."),],
 )
-def test_path_checker_directoy(path, expected, message):
+def test_path_checker_directory(path: str, expected, message: str):
     with pytest.raises(expected) as e:
         path_checker(path)
     assert (message) in str(e.value)
@@ -38,11 +34,9 @@ def test_path_checker_directoy(path, expected, message):
 
 @pytest.mark.parametrize(
     "path, expected, message",
-    [
-        ("koko", PermissionError, "Permission denied to koko"),
-    ],
+    [("koko", PermissionError, "Permission denied to koko"),],
 )
-def test_path_permission(path, expected, message):
+def test_path_permission(path: str, expected, message: str):
     os.mkdir(os.path.join(os.getcwd(), path), 0o000)
     with pytest.raises(expected) as e:
         path_checker(path)
@@ -51,31 +45,31 @@ def test_path_permission(path, expected, message):
     os.rmdir(os.path.join(os.getcwd(), path))
 
 
-def create_repertories(dir_path):
+def create_repertories(dir_path: str):
     test1 = os.path.join(os.getcwd(), dir_path)
     os.mkdir(test1)
 
 
-def f_case1(dir_path):
+def f_case1(dir_path: str):
     name_of_file = "random"
     random = os.path.join(dir_path, name_of_file + ".txt")
     file_txt = open(random, "w")
 
 
-def f_case2(dir_path):
+def f_case2(dir_path: str):
     name_of_file = "random"
     random = os.path.join(dir_path, name_of_file + ".tiff")
     file_txt = open(random, "w")
 
 
-def f_case3(dir_path):
+def f_case3(dir_path: str):
     name_of_file = "random"
     random = os.path.join(dir_path, name_of_file)
     file_txt = open(random + ".json", "w")
     file_txt2 = open(random + "2.json", "w")
 
 
-def f_case4(dir_path):
+def f_case4(dir_path: str):
     name_of_file = "random"
     random = os.path.join(dir_path, name_of_file)
     file_txt = open(random + ".tiff", "w")
@@ -95,7 +89,7 @@ dct_cases = [f_case1, f_case2, f_case3, f_case4]
         (3, "test4", "Number of .tiff files insufficient (min required 100)"),
     ],
 )
-def test_path_inside_checker(id_test, dir_path, message):
+def test_path_inside_checker(id_test: int, dir_path: str, message: str):
     create_repertories(dir_path)
     dct_cases[id_test](dir_path)
     path = os.path.join(os.getcwd(), dir_path)
