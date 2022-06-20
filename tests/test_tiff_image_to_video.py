@@ -3,6 +3,7 @@ import pytest
 import os
 import sys
 from pathlib import Path
+import cv2
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
@@ -18,13 +19,16 @@ from converter.tiff_image_to_video import tiff_images_to_video
     ]
 )
 def test_tiff_images_to_video(video_name, format, expected, exception_case):
-    dir_path = 'imgs/'
+    dir_path = 'converter/exploration/imgs/'
     if exception_case == True:
         with pytest.raises(Exception) as e:
             tiff_images_to_video(dir_path, video_name, format)
         assert e.type == expected
     else:
-        tiff_images_to_video(dir_path, video_name, format)
         path_to_file = expected
+        tiff_images_to_video(dir_path, video_name, format)
         assert os.path.exists(path_to_file)
+        vid_capture = cv2.VideoCapture(path_to_file)
+        ret = vid_capture.isOpened()
         os.remove(path_to_file)
+        assert ret
