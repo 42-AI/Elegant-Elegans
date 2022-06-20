@@ -2,6 +2,7 @@ from converter.checker import path_checker, path_inside_checker
 from converter.parser import parser
 
 
+
 # ########################################################################## #
 #                                FUNCTIONS                                   #
 # ########################################################################## #
