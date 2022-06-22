@@ -44,12 +44,10 @@ def tiff_images_to_video(dir_path, video_name, format, metadata):
     height = metadata.get('frame_height')
     frame_size = (width, height)
     # Initialize video
-    # print(video_name + '.' + format)
     video = cv2.VideoWriter(video_name + '.' + format, video_compression, fps, frame_size)
 
     # Loop through each image and add them to the VideoWriter object
     frames_list = metadata.get('frame_names')
-    # print(fps, frame_size,frames_list[0])
     for file_name in frames_list:
         img = cv2.VideoCapture(dir_path + file_name)
         ret, frame = img.read()
