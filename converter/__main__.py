@@ -1,5 +1,5 @@
 import argparse
-import tiff_image_to_video
+from converter.convert import tiff_images_to_video
 
 # ########################################################################## #
 #                                CONSTANTS                                   #
@@ -93,3 +93,8 @@ if __name__ == '__main__':
     # checker of the tiff images based on metadata
     tiff_files_checker(metadata)
     
+
+    video_name = ''
+    format = ''
+    # convert tiff images to video
+    tiff_images_to_video(dir_path, video_name, format, metadata)
