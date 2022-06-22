@@ -14,7 +14,7 @@ def select_video_compression_format(format):
 
     Returns:
         int: fourcc identifier
-        Four-character codec (fourcc) describes which 
+        Four-character codec (fourcc) describes which
         codec is used to compress the video
     """
     if format == "mp4":
@@ -31,27 +31,30 @@ def tiff_images_to_video(dir_path, video_name, format, metadata):
 
     Args:
         dir_path (string): directory path to tiff images to convert
-        video_name (string, optional): radical of the video filename. Defaults to None.
+        video_name (string, optional): radical of the video filename.
+                                       Defaults to None.
         format (string): compression format for the final video
-        metadata (dict): contains a list of file_names in ascending order, the average fps, 
-        the frame width and the frame height
+        metadata (dict): contains a list of file_names in ascending
+                         order, the average fps, the frame width and
+                         the frame height
     """
 
     # Prepare several parameters for VideoWriter
-    video_compression = select_video_compression_format(format)
+    codec = select_video_compression_format(format)
     fps = metadata.get('avg_fps')
     width = metadata.get('frame_width')
     height = metadata.get('frame_height')
     frame_size = (width, height)
     # Initialize video
-    video = cv2.VideoWriter(video_name + '.' + format, video_compression, fps, frame_size)
+    output_name = video_name + '.' + format
+    video = cv2.VideoWriter(output_name, codec, fps, frame_size)
 
     # Loop through each image and add them to the VideoWriter object
     frames_list = metadata.get('frame_names')
     for file_name in frames_list:
         img = cv2.VideoCapture(dir_path + file_name)
         ret, frame = img.read()
-        if ret == True:
+        if ret:
             video.write(frame)
         else:
             raise RuntimeError(f"Input image corrupted - {file_name}")
