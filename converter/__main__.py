@@ -1,5 +1,7 @@
 from converter.checker import path_checker, path_inside_checker
 from converter.parser import parser
+from converter.convert import tiff_images_to_video
+
 
 
 # ########################################################################## #
@@ -25,6 +27,11 @@ def main():
 
     # # checker of the tiff images based on metadata
     # tiff_files_checker(metadata)
+
+    # # Convert tiff images to video
+    # video_name = '' # Example : "vid1"
+    # format = '' # Value expected : "mp4", "avi"
+    # tiff_images_to_video((dir_path, video_name, format, metadata)
 
 
 # ########################################################################## #
