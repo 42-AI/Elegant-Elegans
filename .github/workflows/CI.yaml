@@ -11,8 +11,8 @@ jobs:
       - name: Linting
         run: |
           python3 -m pip install pre-commit
-          python3 -m pre-commit install
-          python3 -m pre-commit run -a
+          pre-commit install
+          pre-commit run -a
       # - name: unit-tests
       #   run: |
       #     export HYDRA_FULL_ERROR=1
