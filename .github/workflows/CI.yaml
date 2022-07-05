@@ -1,0 +1,17 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: Linting
+        run: |
+          pre-commit run -a
+      - name: unit-tests
+        run: |
+          export HYDRA_FULL_ERROR=1
+          python -m pytest -k "not slow"
