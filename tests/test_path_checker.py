@@ -1,11 +1,13 @@
-import pytest
 import os
 import sys
 
+import pytest
+
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
-from converter.__main__ import path_checker, path_inside_checker
 import shutil
+
+from converter.__main__ import path_checker, path_inside_checker
 
 
 def create_repertories():
@@ -15,7 +17,10 @@ def create_repertories():
 
 
 @pytest.mark.parametrize(
-    "path, expected", [(os.getcwd(), None),],
+    "path, expected",
+    [
+        (os.getcwd(), None),
+    ],
 )
 def test_path_checker(path: str, expected: str):
     assert path_checker(path) == expected, "All good !"
@@ -23,7 +28,9 @@ def test_path_checker(path: str, expected: str):
 
 @pytest.mark.parametrize(
     "path, expected, message",
-    [("toto", NotADirectoryError, "toto is not a directory."),],
+    [
+        ("toto", NotADirectoryError, "toto is not a directory."),
+    ],
 )
 def test_path_checker_directory(path: str, expected, message: str):
     with pytest.raises(expected) as e:
@@ -34,7 +41,9 @@ def test_path_checker_directory(path: str, expected, message: str):
 
 @pytest.mark.parametrize(
     "path, expected, message",
-    [("koko", PermissionError, "Permission denied to koko"),],
+    [
+        ("koko", PermissionError, "Permission denied to koko"),
+    ],
 )
 def test_path_permission(path: str, expected, message: str):
     os.mkdir(os.path.join(os.getcwd(), path), 0o000)

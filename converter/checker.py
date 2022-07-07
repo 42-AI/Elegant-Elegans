@@ -4,7 +4,7 @@ NB_LIMIT = 100
 
 # Checker related to the argument parsed.
 def path_checker(path: str):
-    """ Check the existence and access of a directory
+    """Check the existence and access of a directory.
 
     Arguments:
         path (str): path to the directory
@@ -21,8 +21,8 @@ def path_checker(path: str):
 
 
 def path_inside_checker(dir_path: str):
-    """ Check that the files inside the directory are .tiff or .json,
-        that a .json file exists and that there are at least 100 .tiff files
+    """Check that the files inside the directory are .tiff or .json, that a .json file exists and
+    that there are at least 100 .tiff files.
 
     Arguments:
         dir_path : path to directory

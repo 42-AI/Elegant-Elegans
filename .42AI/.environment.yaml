@@ -1,0 +1,54 @@
+# /!\  This file should only be filled by hand
+#
+#  The packages installed are the ones needed to pass the tests
+#
+#   - conda should be prioritized in comparison to pip
+#
+#   - Unless direct conflict, we should not list:
+#       - Package sub-depencies
+#       - Package hash
+#
+#   - We want to minimize the use of version number
+#
+# https://stackoverflow.com/questions/39280638/how-to-share-conda-environments-across-platforms
+#
+# If a choice is linked to a temporary problem, a link on the matter is appreciated
+
+name: celegans
+
+channels:
+  - pytorch
+  - default
+  - conda-forge
+
+dependencies:
+  # ---------------------------------------------------------------------------- #
+  #                                  OS software                                 #
+  # ---------------------------------------------------------------------------- #
+  - python=3.8
+  - cudatoolkit=10.2
+
+  # ---------------------------------------------------------------------------- #
+  #                                    Backend                                   #
+  # ---------------------------------------------------------------------------- #
+
+  # -------------------------- Artificial Intelligence ------------------------- #
+  - pytorch
+  - torchvision
+  - pytorch-lightning
+  - ftfy
+
+  # -----------
+  # ---------------------------------------------------------------------------- #
+  #                                 pip installs                                 #
+  # ---------------------------------------------------------------------------- #
+  - pip
+  - pip:
+      # ------------------------ Packages errors resolution ------------------------ #
+
+      # opencv and ffmpeg should be installed via conda.
+      #   But libopen264.so (necessary in linux, and maybe mac) is to new for ffmpeg 4.2.2
+      #   While waiting for a new version of ffmpeg, both depedencies will be pip installed
+      #   https://stackoverflow.com/questions/62213783/ffmpeg-error-while-loading-shared-libraries-libopenh264-so-5
+      - opencv-python==4.5.5.64
+      - ffmpeg==1.4

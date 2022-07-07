@@ -1,8 +1,6 @@
 from converter.checker import path_checker, path_inside_checker
-from converter.parser import parser
 from converter.convert import tiff_images_to_video
-
-
+from converter.parser import parser
 
 # ########################################################################## #
 #                                FUNCTIONS                                   #

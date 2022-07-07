@@ -9,7 +9,7 @@ Chaque fonctions intervenant au sein d'une fonctionalité possède un ensemble d
 Pour exécuter l'ensemble des tests, l'utilisateur doit installer au préalable la bibliothèque `pytest` via la commande:
 ```bash
 # conda environment
- conda install -c anaconda pytest 
+ conda install -c anaconda pytest
  # pip environment
 pip install pytest
 # poetry environment

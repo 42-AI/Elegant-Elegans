@@ -3,7 +3,7 @@ description: Issue for Agile methodology 💻
 title: "type(scope): description"
 labels: ["feature", "triage"]
 assignees:
-  -  JBarmentlo
+  - JBarmentlo
 body:
   - type: markdown
     attributes:
