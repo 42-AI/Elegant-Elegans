@@ -6,7 +6,7 @@ import cv2 as cv
 interval = "Interval_ms"
 summary = "Summary"
 
-def loadMetadata(directoryPath):
+def load_metadata(directoryPath):
     """Loads the metadata file in a python dictionary.
 
     Args:
@@ -25,7 +25,8 @@ def loadMetadata(directoryPath):
     except:
         raise Exception("Error trying to load metadata.txt")
 
-def padMicroSecs(timestamp):
+
+def pad_micro_secs(timestamp):
     """Pads the microsecond field with zeros on the left
 
     Args:
@@ -37,7 +38,8 @@ def padMicroSecs(timestamp):
     parts = timestamp.split('.')
     return '.'.join(parts[:-1] + ['{:06d}'.format(int(parts[-1]))])
 
-def getStartTime(metadata):
+
+def get_start_time(metadata):
     """Get the start time of the video
 
     Args:
@@ -53,13 +55,14 @@ def getStartTime(metadata):
         strTime = metadata[summary]["StartTime"]
         strTime_without_timezone = strTime[:-6]
         #TODO need to double check here that i'm doing the right thing with the padding
-        strTime_without_timezone = padMicroSecs(strTime_without_timezone)
+        strTime_without_timezone = pad_micro_secs(strTime_without_timezone)
         start_time = datetime.strptime(strTime_without_timezone, "%Y-%m-%d %H:%M:%S.%f")
         return start_time
     except:
         raise Exception("could not find start time in metadata file")
 
-def loadTif(tifPath):
+
+def load_tif(tifPath):
     """Load the image from a specified path
 
     Args:
@@ -71,7 +74,8 @@ def loadTif(tifPath):
     cv_img = cv.imread(tifPath)
     return cv_img
 
-def checkImages(metadata, directoryPath):
+
+def check_images(metadata, directoryPath):
     """Checks if the images respect the information in the metadata
 
     Args:
@@ -92,14 +96,14 @@ def checkImages(metadata, directoryPath):
             filename = obj.rsplit('/', 1)[-1]
             if filename != summary:
 
-                cv_img = loadTif(directoryPath + "/" + filename)
+                cv_img = load_tif(directoryPath + "/" + filename)
                 if cv_img is None:
-                    raise Exception("Could not load file: " + directoryPath + "/" + filename)
+                    raise Exception(f"Could not load file: {directoryPath}/{filename}")
                 filenames.append(filename)
                 actual_height, actual_width, layers = cv_img.shape
                 expected_width, expected_height = metadata[obj]["Width"], metadata[obj]["Height"]
                 if actual_height != expected_height or actual_width != expected_width:
-                    raise Exception("Mismatched image size: frame: ", directoryPath + "/" + filename)
+                    raise Exception(f"Mismatched image size: frame: {directoryPath}/{filename}")
                 
                 currentFrame = metadata[obj]["Frame"]
                 if currentFrame == 0:
@@ -110,20 +114,20 @@ def checkImages(metadata, directoryPath):
 
                 # checks for missing frames
                 if currentFrame != expect_frame_no:
-                    raise Exception("Mismatched frame number: expected frame no: ", expect_frame_no, " but got frame no: ", currentFrame)
+                    raise Exception(f"Mismatched frame number: expected frame no: {expect_frame_no} but got frame no: {currentFrame}")
                 tmp = total_time_ms
                 total_time_ms = metadata[obj]["ElapsedTime-ms"] - time_to_first_image
                 time_since_last_frame = total_time_ms - tmp
                 expect_frame_no = expect_frame_no + 1
                 frames = frames + 1
 
-    if frames == expected_frames:
-        print("all expected frames were found")
-        print("total capture time: ", total_time_ms)
-        return {
-            'avg_fps': frames / (total_time_ms / 1000),
-            'frame_width': expected_width,
-            'frame_height': expected_height,
-            'frame_names': filenames,
-        }
-    return False
+    if frames != expected_frames:
+        raise Exception(f"Mismatched between the number of expected frames ({expected_frames}) and the actual number ({frames})")
+    print("all expected frames were found")
+    print("total capture time: ", total_time_ms)
+    return {
+        'avg_fps': frames / (total_time_ms / 1000),
+        'frame_width': expected_width,
+        'frame_height': expected_height,
+        'frame_names': filenames,
+    }
