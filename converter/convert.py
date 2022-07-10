@@ -1,6 +1,7 @@
-import cv2
 import os
 from importlib.metadata import metadata
+
+import cv2
 
 
 def select_video_compression_format(format):

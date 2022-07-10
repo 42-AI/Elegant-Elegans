@@ -15,9 +15,18 @@ def parser() -> dict:
         "--path", type=str, required=True, help="path where source will be look in."
     )
     parser.add_argument(
-        "-o", "--output", type=str, required=True, help="Name of the converted video (without the video format)."
+        "-o",
+        "--output",
+        type=str,
+        required=True,
+        help="Name of the converted video (without the video format).",
     )
     parser.add_argument(
-        '-f', '--format', type=str, required=False, default='mp4', help='format of the generated video.'
+        "-f",
+        "--format",
+        type=str,
+        required=False,
+        default="mp4",
+        help="format of the generated video.",
     )
     return parser.parse_args()
