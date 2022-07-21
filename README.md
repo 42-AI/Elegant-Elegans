@@ -8,14 +8,6 @@ Ce répertoire contient un sous-module `WF_NTP`. Afin de cloner ce répertoire e
 git clone --recurse-submodules git@github.com:42-AI/Elegant-Elegans.git
 ```
 
----
-
-## Cloning the repository and submodules
-The present repository include a submodule named `WF_NTP`. To clone this repository and the submodules, one should enter:
-```bash
-git clone --recurse-submodules git@github.com:42-AI/Elegant-Elegans.git
-```
-
 ## Conversion d'images .tiff en vidéo
 Ce répertoire contient un module `converter`, qui convertit des images .tiff en vidéo.
 Entrer la commande: 
@@ -35,6 +27,12 @@ python -m converter --path img/ --output video01 -f mp4
 ```
 
 ---
+
+## Cloning the repository and submodules
+The present repository include a submodule named `WF_NTP`. To clone this repository and the submodules, one should enter:
+```bash
+git clone --recurse-submodules git@github.com:42-AI/Elegant-Elegans.git
+```
 
 ## Converting .tiff images to video
 The present repository include a `converter` module. One can use it to convert .tiff images to a video.
