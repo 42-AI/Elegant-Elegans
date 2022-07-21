@@ -67,7 +67,7 @@ def f_case1(dir_path: str):
 
 def f_case2(dir_path: str):
     name_of_file = "random"
-    random = os.path.join(dir_path, name_of_file + ".tiff")
+    random = os.path.join(dir_path, name_of_file + ".tif")
     file_txt = open(random, "w")
 
 
@@ -75,14 +75,16 @@ def f_case3(dir_path: str):
     name_of_file = "random"
     random = os.path.join(dir_path, name_of_file)
     file_txt = open(random + ".json", "w")
-    file_txt2 = open(random + "2.json", "w")
+    file_txt2 = open(os.path.join(dir_path, "metadata.txt"), "w")
+    file_txt3 = open(random, "w")
 
 
 def f_case4(dir_path: str):
     name_of_file = "random"
     random = os.path.join(dir_path, name_of_file)
-    file_txt = open(random + ".tiff", "w")
+    file_txt = open(random + ".tif", "w")
     file_txt2 = open(random + ".json", "w")
+    file_txt3 = open(os.path.join(dir_path, "metadata.txt"), "w")
     pass
 
 
@@ -92,10 +94,10 @@ dct_cases = [f_case1, f_case2, f_case3, f_case4]
 @pytest.mark.parametrize(
     "id_test, dir_path, message",
     [
-        (0, "test1", "File other than .tiff or .json found"),
-        (1, "test2", "No .json file found"),
-        (2, "test3", "More than one .json file found"),
-        (3, "test4", "Number of .tiff files insufficient (min required 100)"),
+        (0, "test1", "File other than .tif or .json or metadata.txt found"),
+        (1, "test2", "No metadata file found"),
+        (2, "test3", "File other than .tif or .json or metadata.txt found"),
+        (3, "test4", "Number of .tif files insufficient (min required 100)"),
     ],
 )
 def test_path_inside_checker(id_test: int, dir_path: str, message: str):
