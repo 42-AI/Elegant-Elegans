@@ -25,7 +25,7 @@ def main():
     metadata = load_metadata(dir_path)
 
     # # checker of the tiff images based on metadata. Retrieving some info about frames
-    stat_frames = check_images(metadata)
+    stat_frames = check_images(metadata, dir_path)
 
     # Convert tiff images to video
     video_name = args.output  # Example : "vid1"
