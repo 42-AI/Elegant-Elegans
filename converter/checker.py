@@ -40,8 +40,10 @@ def path_inside_checker(dir_path: str):
             num_tif += 1
         elif file == "metadata.txt":
             metadata += 1
+        elif file[-5:] == ".json":
+            continue
         else:
-            raise Exception("File other than .tif or metadata.txt found")
+            raise Exception("File other than .tif or .json or metadata.txt found")
     if metadata == 0:
         raise Exception("No metadata file found")
     if metadata > 1:
