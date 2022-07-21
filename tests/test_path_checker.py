@@ -88,12 +88,7 @@ def f_case4(dir_path: str):
     pass
 
 
-dct_cases = [
-    f_case1,
-    f_case2,
-    f_case3,
-    f_case4
-]
+dct_cases = [f_case1, f_case2, f_case3, f_case4]
 
 
 @pytest.mark.parametrize(

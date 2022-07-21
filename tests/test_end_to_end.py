@@ -1,12 +1,13 @@
 import os
-from os.path import exists
 import sys
-import pytest
+from os.path import exists
 
+import pytest
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
 from converter.__main__ import main
+
 
 @pytest.mark.parametrize(
     "video_name, format, expected",
