@@ -1,6 +1,6 @@
 import os
 
-NB_LIMIT = 100
+NB_LIMIT = 20
 
 # Checker related to the argument parsed.
 def path_checker(path: str):
