@@ -40,14 +40,10 @@ def get_fourth_tif_directory_test():
 @pytest.mark.parametrize(
     "input, expected",
     [
-        "get_first_tif_directory_test",
-        "status_ok",
-        "get_second_tif_directory_test",
-        "status_false",
-        "get_third_tif_directory_test",
-        "status_false",
-        "get_fourth_tif_directory_test",
-        "status_false",
+        ("get_first_tif_directory_test", "status_ok"),
+        ("get_second_tif_directory_test", "status_false"),
+        ("get_third_tif_directory_test", "status_false"),
+        ("get_fourth_tif_directory_test", "status_false"),
     ],
 )
 def test_load_metadata(input, expected, request):
