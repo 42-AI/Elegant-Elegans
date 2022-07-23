@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequences_database>
+    <sequence number="1">
+        <feature class="char" name="name">Sample01</feature>
+        <feature class="char" name="author">user</feature>
+        <feature class="char" name="date">20/01/2020</feature>
+        <feature class="char" name="gene">a</feature>
+        <feature class="double" name="trial" precision="4">10000</feature>
+        <feature class="double" name="age" precision="4">20000</feature>
+        <feature class="double" name="set" precision="4">20000</feature>
+        <feature class="char" name="note">a note</feature>
+        <feature class="char" name="directory">/home/jcts/Documents/demos/demos/CeleST - demo with videos/samples/Sample01</feature>
+        <feature class="double" name="images" precision="4">0</feature>
+        <feature class="double" name="duration" precision="4">300000</feature>
+        <feature class="double" name="frames_per_second" precision="4">[]</feature>
+        <feature class="double" name="mm_per_pixel" precision="4">[]</feature>
+        <feature class="double" name="well" precision="4">[]</feature>
+        <feature class="logical" name="segmented">1</feature>
+        <feature class="double" name="worms" precision="4">[]</feature>
+        <feature class="logical" name="measured">0</feature>
+        <feature class="double" name="format" precision="4">[]</feature>
+        <feature class="double" name="experiment" precision="4">[]</feature>
+        <feature class="double" name="month" precision="4">[]</feature>
+        <feature class="double" name="day" precision="4">[]</feature>
+        <feature class="double" name="year" precision="4">[]</feature>
+        <feature class="double" name="class" precision="4">[]</feature>
+    </sequence>
+    <sequence number="2">
+        <feature class="char" name="name">Sample01_1</feature>
+        <feature class="char" name="author">user</feature>
+        <feature class="char" name="date">20/01/2020</feature>
+        <feature class="char" name="gene">a</feature>
+        <feature class="double" name="trial" precision="4">10000</feature>
+        <feature class="double" name="age" precision="4">20000</feature>
+        <feature class="double" name="set" precision="4">20000</feature>
+        <feature class="char" name="note">a note</feature>
+        <feature class="char" name="directory">/home/jcts/Documents/demos/demos/CeleST - demo with videos/samples/Sample01</feature>
+        <feature class="double" name="images" precision="4">5440000</feature>
+        <feature class="double" name="duration" precision="4">300000</feature>
+        <feature class="double" name="frames_per_second" precision="4">181333</feature>
+        <feature class="double" name="mm_per_pixel" precision="4">201</feature>
+        <feature class="double" name="well" precision="4">[3190000 2560000 2490000]</feature>
+        <feature class="logical" name="segmented">1</feature>
+        <feature class="double" name="worms" precision="4">50000</feature>
+        <feature class="logical" name="measured">1</feature>
+        <feature class="char" name="format">jpg</feature>
+        <feature class="double" name="experiment" precision="4">[]</feature>
+        <feature class="double" name="month" precision="4">[]</feature>
+        <feature class="double" name="day" precision="4">[]</feature>
+        <feature class="double" name="year" precision="4">[]</feature>
+        <feature class="double" name="class" precision="4">[]</feature>
+    </sequence>
+    <sequence number="3">
+        <feature class="char" name="name">Sample02</feature>
+        <feature class="char" name="author">user</feature>
+        <feature class="char" name="date">a</feature>
+        <feature class="char" name="gene">a</feature>
+        <feature class="double" name="trial" precision="4">NaN</feature>
+        <feature class="double" name="age" precision="4">NaN</feature>
+        <feature class="double" name="set" precision="4">NaN</feature>
+        <feature class="char" name="note">a note</feature>
+        <feature class="char" name="directory">/home/jcts/Documents/demos/demos/CeleST - demo with videos/samples/Sample02</feature>
+        <feature class="double" name="images" precision="4">300000</feature>
+        <feature class="double" name="duration" precision="4">300000</feature>
+        <feature class="double" name="frames_per_second" precision="4">10000</feature>
+        <feature class="double" name="mm_per_pixel" precision="4">10000</feature>
+        <feature class="double" name="well" precision="4">[]</feature>
+        <feature class="logical" name="segmented">1</feature>
+        <feature class="double" name="worms" precision="4">0</feature>
+        <feature class="logical" name="measured">1</feature>
+        <feature class="char" name="format">jpg</feature>
+        <feature class="double" name="experiment" precision="4">[]</feature>
+        <feature class="double" name="month" precision="4">[]</feature>
+        <feature class="double" name="day" precision="4">[]</feature>
+        <feature class="double" name="year" precision="4">[]</feature>
+        <feature class="double" name="class" precision="4">[]</feature>
+    </sequence>
+</sequences_database>
