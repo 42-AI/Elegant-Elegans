@@ -7,12 +7,11 @@ def path_checker(path: str):
     """Check the existence and access of a directory.
 
     Arguments:
-        path (str): path to the directory
+        path (str): path to the input directory (containing the images).
 
-    Raise:
-        Depends on the kind of issue encountered:
-        * NotADirectoryError if the directory doesn't exist or is not a directory
-        * PermissionError if the user doesn't h—ave access to the directory
+    Raises:
+        NotADirectoryError: directory doesn't exist or is not a directory.
+        PermissionError: user doesn't have access to the directory.
     """
     if not os.path.isdir(path):
         raise NotADirectoryError(path + " is not a directory.")
@@ -28,25 +27,22 @@ def path_inside_checker(dir_path: str):
         dir_path : path to directory
 
     Raises:
-        Depends on the kind of issue encountered:
-        * If there is no .json file
-        * If there are fewer than 100 .tif files
-        * If there is a file other than .tif or .json
+        FileNotFoundError: there is no .json file
+        Exception: there are fewer than 100 .tif files
+        Exception a file other than .tif or .json
     """
-    num_tif = 0
-    metadata = 0
+    number_tif_files = 0
+    metadata_file = False
     for file in os.listdir(dir_path):
         if file[-4:] == ".tif":
-            num_tif += 1
+            number_tif_files += 1
         elif file == "metadata.txt":
-            metadata += 1
+            metadata_file = True
         elif file[-5:] == ".json":
             continue
         else:
             raise Exception("File other than .tif or .json or metadata.txt found")
-    if metadata == 0:
-        raise Exception("No metadata file found")
-    if metadata > 1:
-        raise Exception("More than one metadata file found")
-    if num_tif < NB_LIMIT:
+    if metadata_file is False:
+        raise FileNotFoundError("No metadata file found")
+    if number_tif_files < NB_LIMIT:
         raise Exception("Number of .tif files insufficient (min required 100)")
