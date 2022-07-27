@@ -19,4 +19,6 @@ We use `BPM` to determine the time it takes a worm to do two bends.
 ## Calculation of the Activity Index in WF_NTP (first iteration)
 
 The following calculation could be implemented in the function `extract_data` in the file `WF_NTP_script.py`:
-$$ activity\_index = \frac{area}{\frac{2 * 60}{BPM}}$$
+$$
+activity\_index = \frac{area}{\frac{2 * 60}{BPM}}
+$$
