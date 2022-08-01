@@ -1,7 +1,6 @@
 from converter.checker import path_checker, path_inside_checker
 from converter.convert import tiff_images_to_video
-from converter.json_parser import check_images, load_metadata
-from converter.parser import parser
+from converter.parser import check_images, load_metadata, parser
 
 # ########################################################################## #
 #                                FUNCTIONS                                   #
@@ -24,8 +23,9 @@ def main():
     # load the json metadata file
     metadata = load_metadata(dir_path)
 
-    # # checker of the tiff images based on metadata. Retrieving some info about frames
-    stat_frames = check_images(metadata)
+    # checker of the tiff images based on metadata.
+    # Retrieving some info about frames
+    stat_frames = check_images(metadata, dir_path)
 
     # Convert tiff images to video
     video_name = args.output  # Example : "vid1"
