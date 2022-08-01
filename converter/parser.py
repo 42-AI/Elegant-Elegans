@@ -1,6 +1,7 @@
 import argparse
 import json
-from datetime import datetime
+from json import JSONDecodeError
+from os import F_OK, R_OK, access
 
 import cv2 as cv
 
@@ -52,16 +53,23 @@ def load_metadata(directoryPath: str) -> dict:
         directoryPath (str): directory path to json file to load.
 
     Raises:
-        Exception: raise an error if an unknown format is passed.
-
+        FileNotFoundError: file [directoryPath]/metadata.txt does not exist.
+        Exception: [directoryPath]/metadata.txt is not readable by the user.
+        JSONDecodeError: issue when loading the metadata from file.
     Returns:
         dict: the loaded metadata.
     """
-    try:
-        file_path = directoryPath + "/metadata.txt"
-        metadata = json.load(open(file_path))
-    except:
-        raise Exception("Error trying to load metadata.txt")
+    metadata_file = directoryPath + "/metadata.txt"
+    if not access(metadata_file, F_OK):
+        raise FileNotFoundError(f"File {metadata_file} does not exists.")
+    if not access(metadata_file, R_OK):
+        raise Exception(f"File {metadata_file} is not readable for the user.")
+    with open(file=metadata_file, mode="r") as file:
+        metadata = json.load(file)
+        # try:
+        #    metadata = json.load(file)
+        # except JSONDecodeError:
+        #    raise JSONDecodeError(f"Error trying to load {metadata_file}", doc=metadata_file, pos=0)
     return metadata
 
 
