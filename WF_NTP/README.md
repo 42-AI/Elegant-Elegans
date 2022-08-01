@@ -2,8 +2,10 @@
 Wide-field nematode tracking platform v3.4.0
 
 The WF_NTP is a platform for analyzing movement behaviour of C. elegans. It is licenced under Creative Commons by-nc-sa 4.0.
+Orignal work has been developped and supported by Mandy Koopman and Quentin Peter from the European Research Institute for the Biology of Ageing at the University Medical Center Groningen in  Netherlands. Their work can be found [here](https://github.com/impact27/WF_NTP).
 
-# Running the code
+---
+## Running the code
  - On windows, mahotas requires "Microsoft Visual C++ Build Tools": https://visualstudio.microsoft.com/downloads/
      - Be sure to select the C++ Build Tools during installation
  - install numpy with `pip install numpy` or `pip3 install numpy`
@@ -12,13 +14,18 @@ The WF_NTP is a platform for analyzing movement behaviour of C. elegans. It is l
  - `pip install .` (or `pip3 install .`)
  - run `WF_NTP_app`
 
-# Tests
+## Tests
 The tests are run with `pytest`. You can install pytest with `pip install pytest`
 
-# Overview
+## Overview
 The WF_NTP software runs in python and only requires an installation of python and integrated libraries.
 Please read all instructions in our Nature Protocols paper https://doi.org/10.1038/s41596-020-0321-9.
 
-# Demos
-
+## Demos
 Demo-data, including the movie, the generated thresholding images and settings file, can be downloaded via https://doi.org/10.17863/CAM.46983.
+
+---
+
+# Ongoing Developement
+
+The code source of the original project has been retrieved to facilitate new developpement.

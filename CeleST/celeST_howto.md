@@ -1,9 +1,8 @@
-# Using celeST for dummies
+# Using CeleST for dummies
 
-<aside>
-💡 ⚠️ WIP! 🏗️ 🚧
 
-</aside>
+> ⚠️ **Work In Progress:** 
+
 
 C Elegans Swim Tracker
 
@@ -19,7 +18,7 @@ Open up a compatible version of octave and navigate to the celeST directory in t
 
 it should look something like this once set up, note the path in the file browser
 
-![Untitled](howto_screenshots/Untitled.png)
+![Untitled](.imgs_howto/Untitled.png)
 
 Load the needed packages by entering the following commands in the command window
 
@@ -43,7 +42,7 @@ celeST
 
 If all went well it should look something like this, pay attention to the warnings that may come up in the command window
 
-![Untitled](howto_screenshots/Untitled%201.png)
+![Untitled](.imgs_howto/Untitled_1.png)
 
 ### Step 3:
 
@@ -54,25 +53,25 @@ Add a video by clicking the “add one video” button on the top left
 
 </aside>
 
-![Untitled](howto_screenshots/Untitled%202.png)
+![Untitled](.imgs_howto/Untitled_2.png)
 
 It may need some action to refresh, but the video should appear below
 
-![Untitled](howto_screenshots/Untitled%203.png)
+![Untitled](.imgs_howto/Untitled_3.png)
 
 ### Step 4:
 
 Next process the video by clicking the process video button
 
-![Untitled](howto_screenshots/Untitled%204.png)
+![Untitled](.imgs_howto/Untitled_4.png)
 
 Select a video and click add to the list then click the video in the no swim well defined, a frame from the video should appear
 
-![Untitled](howto_screenshots/Untitled%205.png)
+![Untitled](.imgs_howto/Untitled_5.png)
 
 define the swim well by clicking three points on the edge of the swim well
 
-![Untitled](howto_screenshots/Untitled%206.png)
+![Untitled](.imgs_howto/Untitled_6.png)
 
 The video should now be listed under the swim well defined, next click process all the videos listed above.
 
@@ -84,15 +83,15 @@ once all frames are processed, the results will be saved and you can close the p
 
 Once the segmentation results are ready, click the compute measures button
 
-![Untitled](howto_screenshots/Untitled%207.png)
+![Untitled](.imgs_howto/Untitled_7.png)
 
 Select the video and click load the segmentation result this may take a few minutes
 
-![Untitled](howto_screenshots/Untitled%208.png)
+![Untitled](.imgs_howto/Untitled_8.png)
 
 You should then be able to check the worms one by one and validate or reject them
 
-![Untitled](howto_screenshots/Untitled%209.png)
+![Untitled](.imgs_howto/Untitled_9.png)
 
 Once you have validated the appropriate worms, click save and compute measures this may take a good while, if the command window doesn’t show an error, its probably alright
 
@@ -102,9 +101,9 @@ once it is over, close the window
 
 You can now click the Display results and load the computed measures
 
-![Untitled](howto_screenshots/Untitled%2010.png)
+![Untitled](.imgs_howto/Untitled_10.png)
 
-![Untitled](howto_screenshots/Untitled%2011.png)
+![Untitled](.imgs_howto/Untitled_11.png)
 
 then click show graphs for these samples and play around, the results are also available in a text file in a directory named “data”
 
