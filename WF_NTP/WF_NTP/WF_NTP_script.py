@@ -300,7 +300,7 @@ def process_frame(settings, Z, mean_brightness, nframes,
         if settings["do_full_prune"]:
             skel_labeled = prune_fully(skel_labeled)
 
-        skel_props = measure.regionprops(skel_labeled, coordinates='xy')
+        skel_props = measure.regionprops(skel_labeled)
         for j in range(len(skel_props)):
             prop_list[j]["length"] = skel_props[j].area
             prop_list[j]["eccentricity"] = skel_props[j].eccentricity
