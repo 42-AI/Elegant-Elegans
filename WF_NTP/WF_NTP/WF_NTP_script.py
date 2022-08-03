@@ -11,7 +11,14 @@ import json
 import os
 import pickle
 import sys
+import pickle
+import sys
 import time
+import traceback
+import warnings
+from collections import Counter, defaultdict
+
+import cv2
 import traceback
 import warnings
 from collections import Counter, defaultdict
@@ -22,7 +29,12 @@ import matplotlib.cm as cm
 import matplotlib.path as mplPath
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.cm as cm
+import matplotlib.path as mplPath
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+import skimage.draw
 import skimage.draw
 import trackpy as tp
 from scipy import interpolate, ndimage
@@ -196,6 +208,7 @@ class Video:
 def track_all_locations(video, settings, stdout_queue):
     """Track and get all locations."""
 
+
     def get_Z_brightness(zi):
         if settings["keep_paralyzed_method"]:
             return find_Z_with_paralyzed(video, settings, *zi)
@@ -249,9 +262,9 @@ def process_frame(settings, Z, mean_brightness, nframes, args=None, return_plot=
         frame = np.array(frameorig, dtype=np.float64)
     frame = np.abs(frame - Z) * settings["all_regions"]
     if (frame > 1.1).any():
-        frame /= 255.0
+        frame /= 255.00
 
-    thresholded = frame > (settings["threshold"] / 255.0)
+    thresholded = frame > (settings["threshold"] / 255.00)
     opening = settings["opening"]
     closing = settings["closing"]
     save_folder = settings["save_as"]
@@ -295,7 +308,7 @@ def process_frame(settings, Z, mean_brightness, nframes, args=None, return_plot=
         if settings["do_full_prune"]:
             skel_labeled = prune_fully(skel_labeled)
 
-        skel_props = measure.regionprops(skel_labeled)
+        skel_props = measure.regionprops(skel_labeled, coordinates="xy")
         for j in range(len(skel_props)):
             prop_list[j]["length"] = skel_props[j].area
             prop_list[j]["eccentricity"] = skel_props[j].eccentricity
@@ -458,17 +471,20 @@ def extract_data(track, settings):
         # Velocity
         particle_dataframe.at[p, "Speed"] = extract_velocity(
             T[P == p], X[P == p], Y[P == p], settings
+        
         )
 
         # Max velocity: 90th percentile to avoid skewed results due to tracking
         # inefficiency
         particle_dataframe.at[p, "Max speed"] = extract_max_speed(
             T[P == p], X[P == p], Y[P == p], settings
+        
         )
 
         # Move per bend
         particle_dataframe.at[p, "Dist per bend"] = extract_move_per_bend(
             bl, T[P == p], X[P == p], Y[P == p], px_to_mm
+        
         )
 
         particle_dataframe.at[p, "bends"] = bl
@@ -493,9 +509,14 @@ def extract_data(track, settings):
             )
             particle_dataframe.at[index, "activity_index"] = (
                 particle_dataframe.at[index, "Area"] * particle_dataframe.at[index, "BPM"] / 120
+            
+            )
+            particle_dataframe.at[index, "activity_index"] = (
+                particle_dataframe.at[index, "Area"] * particle_dataframe.at[index, "BPM"] / 120
             )
         particle_dataframe.at[index, "Appears in frames"] = len(
             particle_dataframe.at[index, "bends"]
+        
         )
 
     # Cut off-tool for skewed statistics
@@ -560,6 +581,7 @@ def extract_data(track, settings):
     particle_dataframe.loc[:, "Moving"] = np.logical_or(
         particle_dataframe.loc[:, "BPM"] > settings["maximum_bpm"],
         particle_dataframe.loc[:, "Speed"] > settings["maximum_velocity"],
+    ,
     )
 
     return dict(
@@ -576,13 +598,14 @@ def extract_data(track, settings):
 # =============================================================================
 
 
+
 def find_Z(video, settings, i0, i1):
     """Get thresholded image."""
     # Adjust brightness:
     frame = video[(i0 + i1) // 2]
     mean_brightness = np.mean(frame)
     if mean_brightness > 1:
-        mean_brightness /= 255.0
+        mean_brightness /= 255.00
     Z = np.zeros_like(frame, dtype=np.float64)
     if settings["darkfield"]:
         minv = np.zeros_like(frame, dtype=np.float64) + 256
@@ -632,6 +655,7 @@ def find_skel_endpoints(skel):
         np.array([[1, 2, 0], [2, 1, 0], [0, 0, 0]]),
         np.array([[2, 0, 0], [1, 1, 0], [2, 0, 0]]),
         np.array([[0, 0, 0], [2, 1, 0], [1, 2, 0]]),
+    ,
     ]
 
     ep = 0
@@ -1023,7 +1047,6 @@ def write_particles(settings, particles_dataframe, filename):
         :,
         [
             "BPM",
-            "activity_index",
             "bends_in_movie",
             "Speed",
             "Max speed",
@@ -1040,7 +1063,6 @@ def write_particles(settings, particles_dataframe, filename):
     x = settings["limit_images_to"] / settings["fps"]
     df.columns = [
         "BPM",
-        "Activity Index",
         f"Bends per {x:.2f} s",
         "Speed",
         "Max speed",
@@ -1162,6 +1184,7 @@ def small_imshow(settings, img, *args, **kwargs):
             np.asarray(img, float),
             (int(img.shape[0] * factor), int(img.shape[1] * factor)),
             preserve_range=True,
+        ,
         )
     plt.clf()
     plt.imshow(img, *args, extent=[0, original_shape[1], original_shape[0], 0], **kwargs)
