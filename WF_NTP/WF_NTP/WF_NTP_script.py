@@ -1023,6 +1023,7 @@ def write_particles(settings, particles_dataframe, filename):
         :,
         [
             "BPM",
+            "activity_index",
             "bends_in_movie",
             "Speed",
             "Max speed",
@@ -1039,6 +1040,7 @@ def write_particles(settings, particles_dataframe, filename):
     x = settings["limit_images_to"] / settings["fps"]
     df.columns = [
         "BPM",
+        "Activity Index",
         f"Bends per {x:.2f} s",
         "Speed",
         "Max speed",
