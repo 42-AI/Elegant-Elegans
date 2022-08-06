@@ -52,7 +52,7 @@ def tiff_images_to_video(dir_path, video_name, format, metadata):
     # Loop through each image and add them to the VideoWriter object
     frames_list = metadata.get("frame_names")
     for file_name in frames_list:
-        img = cv2.VideoCapture(dir_path + file_name)
+        img = cv2.VideoCapture(f"{dir_path}/{file_name}")
         ret, frame = img.read()
         if ret:
             video.write(frame)
