@@ -30,8 +30,8 @@ def parser() -> dict:
         help="Name of the converted video (without the video format).",
     )
     parser.add_argument(
-        "-f",
         "--format",
+        "-f",
         type=str,
         required=False,
         default="mp4",
