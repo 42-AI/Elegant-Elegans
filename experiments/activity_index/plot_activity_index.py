@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -29,7 +30,11 @@ def extract_data_from_directory(dir: str) -> pd.DataFrame:
     data = pd.DataFrame()
     for subdir, file in zip(results_subdir, files):
         file_path = os.path.join(pwd, dir, subdir, file)
-        id_num = re.findall("[0-9]+", subdir)[0]
+        try:
+            id_num = re.findall("[0-9]+", subdir)[0]
+        except Exception:
+            print("ERROR: a sub-directory in 'results' has no index")
+            sys.exit(-1)
         name = f"results_{id_num}"
         if os.path.isfile(file_path):
             data_subset = pd.read_csv(file_path, index_col=0)
@@ -57,5 +62,6 @@ if __name__ == "__main__":
             data=data, x=data["Activity Index"], hue="dataset_name", multiple="stack", bins=20
         )
         plt.show()
-    except:
+    except Exception:
         print("ERROR: cannot plot your data")
+        sys.exit(-1)
