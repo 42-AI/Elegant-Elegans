@@ -18,7 +18,8 @@ def extract_bucket_names(abs_file_path: str) -> list:
             if not bucket_name:
                 break
             else:
-                bucket_list.append(bucket_name.replace("\n", " "))
+                if bucket_name.find("#") == -1:
+                    bucket_list.append(bucket_name.replace("\n", " "))
     return bucket_list
 
 
