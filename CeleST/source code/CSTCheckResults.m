@@ -558,6 +558,8 @@ waitfor(mainFigure,'BeingDeleted','on');
                         averageWormBodyArea = averageWormBodyArea + sum(averageWormBodyMask(:) > 0);
                         areaCoveredNorm(ff0) = sum(maskAreaCovered(:) > 0) / (averageWormBodyArea / (1+timeWindowForSweptAreas));
                         sweeping_noTimeNorm(ff0) = areaCoveredNorm(ff0) * temporalFreq(ff0*2) * fileDB(currentVideo).frames_per_second * 60;
+                        csvwrite(sprintf("csv/%d.%d.csv", wormToMeasure, ff), maskAreaCovered);
+                        csvwrite(sprintf("bm_csv/%d.%d.csv", wormToMeasure, ff0), averageWormBodyMask);
                         % -----------
                         % move to the next frame
                         % -----------
