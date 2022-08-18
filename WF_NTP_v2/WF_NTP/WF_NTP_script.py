@@ -1,12 +1,3 @@
-"""
-Copyright (C) 2019 Quentin Peter
-
-This file is part of WF_NTP.
-
-WF_NTP is distributed under CC BY-NC-SA version 4.0. You should have
-recieved a copy of the licence along with WF_NTP. If not, see
-https://creativecommons.org/licenses/by-nc-sa/4.0/.
-"""
 import functools
 import json
 import os
@@ -22,6 +13,7 @@ import mahotas as mh
 import matplotlib.cm as cm
 import matplotlib.path as mplPath
 import matplotlib.pyplot as plt
+from multiprocessing import Queue
 import numpy as np
 import pandas as pd
 import skimage.draw
@@ -32,13 +24,14 @@ from skimage import io, measure, morphology
 from skimage.transform import resize
 
 
+# ########################################################################## #
+# TODO: Moving class StdoutRedirector & save_settings into a separate file
+# as it concerns standard output and error and writting functionality
 class StdoutRedirector(object):
     """File that writes to a queue with a prefix."""
 
-    def __init__(self, queue, prefix=None):
+    def __init__(self, queue: Queue, prefix: str = ""):
         self.queue = queue
-        if not prefix:
-            prefix = ""
         self.prefix = prefix
 
     def write(self, string):
@@ -50,43 +43,122 @@ class StdoutRedirector(object):
         pass
 
 
-def save_settings(settings):
-    # Make output directory
+def save_settings(settings: dict):
+    """Saving the video settings and preprocessing into output directory
+
+    Args:
+        settings (dict): dictionary containing all the parameters about the
+                         video and the preprocessing when importing the video
+    """
     try:
         os.mkdir(settings["save_as"])
     except OSError:
-        print(
-            'Warning: job folder "%s" already created, overwriting.'
-            % settings["save_as"]
-        )
-
+        raise OSError(f'Warning: job folder "{settings["save_as"]}" already created, overwriting.')
+    
+    # PosixPath object corresponding to the file to dump video and preprocessing parameters
     settingsfilename = os.path.join(settings["save_as"], "settings.json")
+
+    # Writing
     with open(settingsfilename, "w") as f:
         json.dump(settings, f, indent=4)
 
+# ########################################################################## #
 
-def run_tracker(settings, stdout_queue=None):
-    """
-    Run the tracker with the given settings.
 
-    stdout_queue can be used to redirect stdout.
+# ########################################################################## #
+
+def run_tracker(settings: dict, stdout_queue: Queue = None):
+    """Run the tracker with the given settings.
+
+    Args:
+        settings (dict): dictionary containing all the parameters about the
+                         video and the preprocessing when importing the video
+        stdout_queue (Queue, optional): Can be used to redirect stdout. Defaults to None.
+
+    Returns:
+        _type_: _description_
+
+    Example:
+        Settings:
+        {
+            "video_filename": <INPUT_VIDEO_NAME>,
+            "start_frame": 0,
+            "limit_images_to": 240,
+            "fps": 7.0,
+            "px_to_mm": 0.04,
+            "darkfield": False,
+            "keep_paralyzed_method": False,
+            "std_px": 64,
+            "threshold": 9,
+            "opening": 1,
+            "closing": 3,
+            "prune_size": 0,
+            "skeletonize": False,
+            "do_full_prune": False,
+            "min_size": 25,
+            "max_size": 120,
+            "minimum_ecc": 0.93,
+            "use_average": True,
+            "lower": 0,
+            "upper": 100,
+            "Bends_max": 20.0,
+            "Speed_max": 0.035,
+            "extra_filter": False,
+            "cutoff_filter": False,
+            "max_dist_move": 10,
+            "min_track_length": 50,
+            "memory": 5,
+            "bend_threshold": 2.1,
+            "minimum_bends": 0.0,
+            "frames_to_estimate_velocity": 49,
+            "maximum_bpm": 0.5,
+            "maximum_velocity": 0.1,
+            "regions":
+            {
+                "zone":
+                {
+                    "x": [...],
+                    "y": [...]
+                }
+            },
+            "save_as": <DIRECTORY_TO_SAVE>,
+            "output_overlayed_images": 0,
+            "font_size": 8,
+            "scale_bar_size": 1.0,
+            "scale_bar_thickness": 7,
+            "max_plot_pixels": 2250000,
+            "Z_skip_images": 1,
+            "use_images": 100,
+            "use_around": 5,
+            "stop_after_example_output": False,
+            "stdout prefix": "[0]"
+            }
+
     """
     if stdout_queue:
+        #TODO: There is probably a smatter way to redirect stdout and stderr with
+        # a more useful object (better class definition than StdoutRedirector
         sys.stdout = StdoutRedirector(stdout_queue, settings["stdout prefix"])
         sys.stderr = StdoutRedirector(stdout_queue, settings["stdout prefix"])
 
+    # TODO: moving the saving of the setting before entering run_tracker
+    # Saving the parameters in the output directory
     save_settings(settings)
 
+    # TODO: the ajustement should be done before entering into run_tracker as
+    # it is unrelated to the functionality of run_tracker
     # Do some adjustments
     settings = settings.copy()
     settings["frames_to_estimate_velocity"] = min(
         [settings["frames_to_estimate_velocity"], settings["min_track_length"]]
     )
     settings["bend_threshold"] /= 100.0
+    # end of adjustements
 
+    # TODO: video should be a parameters of run_tracker
     video = Video(settings, grey=True)
 
-    print("Video shape:", video[0].shape)
+    print("Video shape:", video[0].shape) # useless
 
     regions = settings["regions"]
     try:

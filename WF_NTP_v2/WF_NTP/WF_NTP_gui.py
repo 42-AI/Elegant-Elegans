@@ -161,6 +161,7 @@ class MainApplication(tk.Frame):
             self.stdout_queue.put(''.join(traceback.format_exception_only(
                 error.__class__, error)))
 
+        print('## SETTINGS:\n', settings)
         settings["stdout prefix"] = f"[{index}]"
         self.pool.apply_async(run_tracker, (settings, self.stdout_queue),
                               callback=finish, error_callback=error_callback)
