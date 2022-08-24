@@ -374,8 +374,9 @@ def activity_index(data):
             array["area"] = array["coords"].apply(lambda x: len(x))
             average_area = array["area"].sum() / len(array["area"])
             activity_index = total_area - average_area
-            activity_index = activity_index / average_area
-            activity_index = 1 - (average_area / (total_area - average_area))
+            # this is where we want to play around with theories as to how exactly CeleST calculates the activity_intex
+            # activity_index = activity_index / average_area
+            # activity_index = 1 - (average_area / (total_area - average_area))
             activity_indices.append(activity_index)
         bend += 1
     return activity_indices
