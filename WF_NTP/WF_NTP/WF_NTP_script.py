@@ -15,6 +15,7 @@ import time
 import traceback
 import warnings
 from collections import Counter, defaultdict
+from tkinter import Image
 
 import cv2
 import mahotas as mh
@@ -25,6 +26,8 @@ import numpy as np
 import pandas as pd
 import skimage.draw
 import trackpy as tp
+from PIL import Image
+from pylab import imshow, show
 from scipy import interpolate, ndimage
 from scipy.signal import savgol_filter
 from skimage import io, measure, morphology
@@ -93,6 +96,7 @@ def run_tracker(settings, stdout_queue=None):
         all_regions = im > 0.1
     else:
         all_regions = np.zeros_like(video[0])
+
         for key, d in list(regions.items()):
             im = np.zeros_like(video[0])
             rr, cc = skimage.draw.polygon(np.array(d["y"]), np.array(d["x"]))
@@ -119,6 +123,8 @@ def run_tracker(settings, stdout_queue=None):
     if settings["stop_after_example_output"]:
         return print_data, None
     track = form_trajectories(locations, settings)
+    print("this is what track looks like")
+    print(track)
 
     results = extract_data(track, settings)
     if not check_for_worms(results["particle_dataframe"].index, settings):
@@ -211,7 +217,6 @@ def track_all_locations(video, settings, stdout_queue):
         for i, j in apply_indeces
     ]
 
-    # Get frames0 print material
     Z, mean_brightness = get_Z_brightness(Z_indeces[0])
     print_data = process_frame(
         settings, Z, mean_brightness, len(video), args=(0, video[0]), return_plot=True
@@ -277,6 +282,8 @@ def process_frame(settings, Z, mean_brightness, nframes, args=None, return_plot=
     labeled_removed, n_left = mh.labeled.relabel(labeled_removed)
 
     props = measure.regionprops(labeled_removed)
+    frame_width = frame_after_close.shape[1]
+    # this is where the magic happens
     prop_list = [
         {
             "area": props[j].area,
@@ -284,9 +291,12 @@ def process_frame(settings, Z, mean_brightness, nframes, args=None, return_plot=
             "eccentricity": props[j].eccentricity,
             "area_eccentricity": props[j].eccentricity,
             "minor_axis_length": props[j].minor_axis_length / (props[j].major_axis_length + 0.001),
+            "coords": props[j].coords,
+            "frame_width": frame_width,
         }
         for j in range(len(props))
     ]
+
     if settings["skeletonize"]:
         skeletonized_frame = morphology.skeletonize(frame_after_close)
         skeletonized_frame = prune(skeletonized_frame, settings["prune_size"])
@@ -340,6 +350,37 @@ def process_frames(video, settings, i0, i1, Z, mean_brightness):
     return map(func, args())
 
 
+def coords_to_one_d(array, frame_width):
+    one_d = []
+    # TODO get the video dimentions somehow
+    for arr in array:
+        one_d.append(arr[1] * frame_width + arr[0])
+    return one_d
+
+
+def activity_index(data):
+    test = data
+    activity_indices = []
+    frame_width = 696
+    test["coords"] = test["coords"].apply(coords_to_one_d, frame_width=frame_width)
+    # get the last bend number
+    last_bend = data["bends"].max()
+    bend = 0
+    while bend <= last_bend:
+        if bend % 2:
+            array = test[["frame", "coords", "bends"]][test["bends"].between(bend - 1, bend)]
+            sum = list(set(array["coords"].sum()))
+            total_area = len(sum)
+            array["area"] = array["coords"].apply(lambda x: len(x))
+            average_area = array["area"].sum() / len(array["area"])
+            activity_index = total_area - average_area
+            activity_index = activity_index / average_area
+            activity_index = 1 - (average_area / (total_area - average_area))
+            activity_indices.append(activity_index)
+        bend += 1
+    return activity_indices
+
+
 def form_trajectories(loc, settings):
     """Form worm trajectories."""
     print("Forming worm trajectories...", end=" ")
@@ -351,6 +392,8 @@ def form_trajectories(loc, settings):
         "area": [],
         "minor_axis_length": [],
         "area_eccentricity": [],
+        "frame_width": [],
+        "coords": [],
     }
     for t, l in enumerate(loc):
         data["x"] += [d["centroid"][0] for d in l]
@@ -360,7 +403,10 @@ def form_trajectories(loc, settings):
         data["minor_axis_length"] += [d["minor_axis_length"] for d in l]
         data["area"] += [d["area"] for d in l]
         data["frame"] += [t] * len(l)
+        data["frame_width"] += [d["frame_width"] for d in l]
+        data["coords"] += [d["coords"] for d in l]
     data = pd.DataFrame(data)
+    data.head()
     try:
         track = tp.link_df(data, search_range=settings["max_dist_move"], memory=settings["memory"])
     except tp.linking.SubnetOversizeException:
@@ -445,6 +491,16 @@ def extract_data(track, settings):
         else:
             bl = np.array([0.0] * len(T[P == p]))
 
+        coords = track[["coords", "frame_width"]][P == p]
+        coords = coords.reset_index()
+        coords["bends"] = 0
+        coords["bends"] = bl
+        activity_indices = activity_index(coords)
+        if len(activity_indices):
+            particle_dataframe.at[p, "activity_index"] = np.median(activity_indices)
+        else:
+            particle_dataframe.at[p, "activity_index"] = 0
+
         px_to_mm = settings["px_to_mm"]
         # Area
         if settings["skeletonize"]:
@@ -491,9 +547,9 @@ def extract_data(track, settings):
             particle_dataframe.at[index, "bends_in_movie"] = (
                 last_bend / np.ptp(T[P == index]) * x * fps
             )
-            particle_dataframe.at[index, "activity_index"] = (
-                particle_dataframe.at[index, "Area"] * particle_dataframe.at[index, "BPM"] / 120
-            )
+            # particle_dataframe.at[index, "activity_index"] = (
+            #     particle_dataframe.at[index, "Area"] * particle_dataframe.at[index, "BPM"] / 120
+            # )
         particle_dataframe.at[index, "Appears in frames"] = len(
             particle_dataframe.at[index, "bends"]
         )
