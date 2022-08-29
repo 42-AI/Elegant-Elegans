@@ -1,16 +1,16 @@
 # Installation de l'environnement
 
 - [Installation de l'environnement](#installation-de-lenvironnement)
-  - [Introduction](#introduction)
-  - [Installation d'Anaconda pour Python3.8](#installation-danaconda-pour-python38)
-  - [Installation de WF_NTP](#installation-de-wf_ntp)
-  - [Exécution de CeleST](#exécution-de-celest)
-    - [Étapes préliminaires](#étapes-préliminaires)
-    - [Octave](#octave)
-    - [CeleST](#celest)
-      - [Exécution](#exécution)
-        - [Interface graphique](#interface-graphique)
-        - [interface ligne de commande](#interface-ligne-de-commande)
+	- [Introduction](#introduction)
+	- [Installation d'Anaconda pour Python3.8](#installation-danaconda-pour-python38)
+	- [Installation de WF_NTP](#installation-de-wf_ntp)
+	- [Exécution de CeleST](#exécution-de-celest)
+		- [Étapes préliminaires](#étapes-préliminaires)
+		- [Octave](#octave)
+		- [CeleST](#celest)
+			- [Exécution](#exécution)
+				- [Interface graphique](#interface-graphique)
+				- [interface ligne de commande](#interface-ligne-de-commande)
 
 ## Introduction
 Comme mentionné dans le Readme à la racine du répertoire, ce projet s'appuie sur 2 outils utilisés dans le monde de la recherche en biologie:
@@ -36,8 +36,8 @@ L'installation est complète.
 
 0. Penser a telecharger les submodules du repository avec `git submodule update --init --recursive`
 1. Créer un environement conda virtuel avec la commande `conda create -n v_wf_ntp python=3.8` et activer le (`conda activate  v_wf_ntp`)
-1.1 Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge `conda config --append channels conda-forge`
-2. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande `conda install -f conda_wf_ntp_requirements.txt`
+   1.1. Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge `conda config --append channels conda-forge`
+2. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande `conda install --file conda_wf_ntp_requirement.txt`
 3. Copier le fichier `run_script/multiwormtracker_app` à la racine du répertoire `WF_NTP`
 4. Ouvrir le fichier `WF_NTP/WF_NTP/WF_NTP_script.py` et  remplacer `coordinates='xy'` par `coordinates='rc'` à la ligne 287.
 
