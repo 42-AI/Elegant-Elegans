@@ -22,6 +22,8 @@ Dans les sections qui vont suivre sont détaillés les étapes d'installation po
 
 
 ## Installation d'Anaconda pour Python3.8
+
+### Linux
 1. télécharger le script d'installation d'anaconda (`wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh`)
    > À noter que l'exécutable télécharger par la commande wget est pour un système dont l'architecture est x86 (pour vérifier tapper `arch` ou `uname -m` dans votre terminal)
 2. ajouter les droits d'exécution à l'utilisateur (`sudo chmod u+x Anaconda3-2020.02-Linux-x86_64.sh`) et exécuter le script d'installation
@@ -31,9 +33,13 @@ Dans les sections qui vont suivre sont détaillés les étapes d'installation po
 
 L'installation est complète.
 
+### Windows
+1. Télécharger l'exécutable d'installation [Anaconda](https://www.anaconda.com/products/distribution) ou [Miniconda](https://docs.conda.io/en/latest/miniconda.html) pour Python 3.8.
+2. Lancer l'exécutable et suivre les instructions jusqu'à ce que l'installation soit complète.
 
 ## Installation de WF_NTP
 
+### Linux
 0. Penser a telecharger les submodules du repository avec `git submodule update --init --recursive`
 1. Créer un environement conda virtuel avec la commande `conda create -n v_wf_ntp python=3.8` et activer le (`conda activate  v_wf_ntp`)
 1.1 Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge `conda config --append channels conda-forge`
@@ -43,6 +49,29 @@ L'installation est complète.
 
 L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec la commande `./multiwormtracker_app`.
 
+### Windows
+
+#### Création de l'environnement conda
+1. Ouvrir l'Anaconda Prompt et se placer dans le répertoire `Elegant-Elegans`
+```
+cd path\to\Elegant-Elegans
+```
+2. Créer un environnement conda virtuel `v_wf_ntp`, puis activer le:
+```
+conda env create -f env_wf_ntp.yml
+conda activate v_wf_ntp
+```
+    >L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
+
+#### Exécution
+1. Dans l'Anaconda Prompt, se placer dans le répertoire `WF_NTP`
+```
+cd path\to\Elegant-Elegans\WF_NTP
+```
+2. Vérifier que l'environnement `v_wf_ntp` est bien activé et lancer l'application wf_ntp avec la commande :
+```
+python multiwormtracker_app
+```
 
 ## Exécution de CeleST
 ### Étapes préliminaires
