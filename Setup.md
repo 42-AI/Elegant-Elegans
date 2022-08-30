@@ -61,7 +61,7 @@ cd path\to\Elegant-Elegans
 conda env create -f env_wf_ntp.yml
 conda activate v_wf_ntp
 ```
-    > L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
+   > L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
 
 #### Exécution
 1. Dans l'Anaconda Prompt, se placer dans le répertoire `WF_NTP`
