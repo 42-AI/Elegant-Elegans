@@ -1,0 +1,17 @@
+name: v_wf_ntp
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - mahotas
+  - matplotlib
+  - numpy=1.21
+  - opencv
+  - pandas
+  - python=3.8
+  - scikit-image
+  - scipy
+  - sqlite
+  - tornado
+  - trackpy
+  - py-opencv
