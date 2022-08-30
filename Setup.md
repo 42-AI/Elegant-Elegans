@@ -56,19 +56,19 @@ L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec l
 ```
 cd path\to\Elegant-Elegans
 ```
-2. Créer un environnement conda virtuel `v_wf_ntp`, puis activer le:
+2. Créer un environnement conda virtuel `v_wf_ntp`, puis l'activer :
 ```
 conda env create -f env_wf_ntp.yml
 conda activate v_wf_ntp
 ```
-    >L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
+    > L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
 
 #### Exécution
 1. Dans l'Anaconda Prompt, se placer dans le répertoire `WF_NTP`
 ```
 cd path\to\Elegant-Elegans\WF_NTP
 ```
-2. Vérifier que l'environnement `v_wf_ntp` est bien activé et lancer l'application wf_ntp avec la commande :
+2. Vérifier que l'environnement `v_wf_ntp` est bien activé et lancer le programme de `WF_NTP` avec la commande :
 ```
 python multiwormtracker_app
 ```
