@@ -369,7 +369,7 @@ def coords_to_one_d(array, frame_width):
 def activity_index(data):
     test = data
     activity_indices = []
-    frame_width = 696
+    frame_width = data["frame_width"].iloc[0]
     test["coords"] = test["coords"].apply(coords_to_one_d, frame_width=frame_width)
     # get the last bend number
     last_bend = data["bends"].max()
@@ -382,8 +382,7 @@ def activity_index(data):
             array["area"] = array["coords"].apply(lambda x: len(x))
             average_area = array["area"].sum() / len(array["area"])
             activity_index = total_area - average_area
-            # this is where we want to play around with theories as to how exactly CeleST calculates the activity_intex
-            # activity_index = activity_index / average_area
+            activity_index = activity_index / average_area
             # activity_index = 1 - (average_area / (total_area - average_area))
             activity_indices.append(activity_index)
         bend += 1
@@ -505,6 +504,7 @@ def extract_data(track, settings):
         coords["bends"] = 0
         coords["bends"] = bl
         activity_indices = activity_index(coords)
+
         if len(activity_indices):
             particle_dataframe.at[p, "activity_index"] = np.median(activity_indices)
         else:
