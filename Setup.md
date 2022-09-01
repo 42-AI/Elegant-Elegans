@@ -40,12 +40,25 @@ L'installation est complète.
 ## Installation de WF_NTP
 
 ### Linux
-0. Penser a telecharger les submodules du repository avec `git submodule update --init --recursive`
-1. Créer un environement conda virtuel avec la commande `conda create -n v_wf_ntp python=3.8` et activer le (`conda activate  v_wf_ntp`)
-1.1 Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge `conda config --append channels conda-forge`
-2. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande `conda install -f conda_wf_ntp_requirements.txt`
-3. Copier le fichier `run_script/multiwormtracker_app` à la racine du répertoire `WF_NTP`
-4. Ouvrir le fichier `WF_NTP/WF_NTP/WF_NTP_script.py` et  remplacer `coordinates='xy'` par `coordinates='rc'` à la ligne 287.
+1. Créer un environement conda virtuel avec la commande:
+   ```bash
+   conda create -n v_wf_ntp python=3.8
+   ```
+2. Activer l'environnement:
+   ```bash
+   conda activate  v_wf_ntp
+   ```
+> ![INFO]
+> Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge grâce à la commande:
+> ```bash
+>  conda config --append channels conda-forge
+> ```
+
+3. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande:
+   ```bash
+   conda install -f conda_wf_ntp_requirements.txt
+   ```
+3. Copier le fichier `run_script/multiwormtracker_app` à la racine du répertoire `WF_NTP/`
 
 L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec la commande `./multiwormtracker_app`.
 
@@ -53,25 +66,25 @@ L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec l
 
 #### Création de l'environnement conda
 1. Ouvrir l'Anaconda Prompt et se placer dans le répertoire `Elegant-Elegans`
-```
-cd path\to\Elegant-Elegans
-```
+   ```bash
+   cd path\to\Elegant-Elegans
+   ```
 2. Créer un environnement conda virtuel `v_wf_ntp`, puis l'activer :
-```
-conda env create -f env_wf_ntp.yml
-conda activate v_wf_ntp
-```
+   ```bash
+   conda env create -f env_wf_ntp.yml
+   conda activate v_wf_ntp
+   ```
    > L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
 
 #### Exécution
 1. Dans l'Anaconda Prompt, se placer dans le répertoire `WF_NTP`
-```
-cd path\to\Elegant-Elegans\WF_NTP
-```
+   ```bash
+   cd path\to\Elegant-Elegans\WF_NTP
+   ```
 2. Vérifier que l'environnement `v_wf_ntp` est bien activé et lancer le programme de `WF_NTP` avec la commande :
-```
-python multiwormtracker_app
-```
+   ```bash
+   python multiwormtracker_app
+   ```
 
 ## Exécution de CeleST
 ### Étapes préliminaires
