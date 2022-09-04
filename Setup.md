@@ -53,7 +53,7 @@ L'installation est complète.
 
 3. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande:
    ```bash
-   conda install -f conda_wf_ntp_requirements.txt
+   conda install --file conda_wf_ntp_requirements.txt
    ```
 3. Copier le fichier `run_script/multiwormtracker_app` à la racine du répertoire `WF_NTP/`
 
@@ -161,7 +161,7 @@ L'interface de `CeleST` s'ouvre, vous pouvez alors utiliser le programme.
 - [WF_NTP setup](#wf_ntp-setup)
 - [CeleST setup](#celest-setup)
 
-# Setup
+## Setup
 ## Introduction (english version)
 
 Elegant-Elegans is based on 2 tools used by the academic biological community:
@@ -199,88 +199,91 @@ The installation should be complete.
 ### WF_NTP setup
 
 #### Linux
-1. Créer un environement conda virtuel avec la commande:
+1. Create an virtual conda environment with the command:
    ```bash
    conda create -n v_wf_ntp python=3.8
    ```
-2. Activer l'environnement:
+2. activate the venv:
    ```bash
    conda activate  v_wf_ntp
    ```
 > **Note**
 >
-> Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge grâce à la commande:
+> If you are using Minicondat instead of Anaconda, you need to add the `conda-forge` channel:
 > ```bash
 > conda config --append channels conda-forge
   ```
 
-3. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande:
+3. Install the libraries gather in `conda_wf_ntp_requirements.txt` with the command:
    ```bash
-   conda install -f conda_wf_ntp_requirements.txt
+   conda install --file conda_wf_ntp_requirements.txt
    ```
-3. Copier le fichier `run_script/multiwormtracker_app` à la racine du répertoire `WF_NTP/`
+3. Copy the file `run_script/multiwormtracker_app` at the root of the repository `WF_NTP/`
 
-L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec la commande `./multiwormtracker_app` ou bien double cliquer dessus.
+Installation of `WF_NTP` should be complete, you can run the program with the command `./multiwormtracker_app` or double click on it.
 
 #### Windows
-##### Création de l'environnement conda
-1. Ouvrir l'Anaconda Prompt et se placer dans le répertoire `Elegant-Elegans`
+##### Conda environment
+1. Open the Anaconda pompt and go to `Elegant-Elegans` folder.
    ```bash
    cd path\to\Elegant-Elegans
    ```
-2. Créer un environnement conda virtuel `v_wf_ntp`, puis l'activer :
+2. Create a conda virtual environment named `v_wf_ntp`, and activate it:
    ```bash
    conda env create -f env_wf_ntp.yml
    conda activate v_wf_ntp
    ```
-   > L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
+   > Virtual environment is correctly created if `v_wf_ntp` appears between parentheses at the beginning of the line in the prompt.
 
 ##### Exécution
-1. Dans l'Anaconda Prompt, se placer dans le répertoire `WF_NTP`
+1. In the Anaconda Prompt, go to the folder `WF_NTP`
    ```bash
    cd path\to\Elegant-Elegans\WF_NTP
    ```
-2. Vérifier que l'environnement `v_wf_ntp` est bien activé et lancer le programme de `WF_NTP` avec la commande :
+2. Verify `v_wf_ntp` is activated and run the program `WF_NTP` with the command:
    ```bash
    python multiwormtracker_app
    ```
 
 ### CeleST setup
-### Étapes préliminaires
-Afin de pouvoir lancer CeleST, plusieurs étapes préliminaires sont nécessaires:
-1. télécharger le code source à partir de http://celest.mbb.rutgers.edu/
-2. installer le logiciel **Octave** ([ici](https://wiki.octave.org/Octave_for_GNU/Linux) pour les systèmes Linux ou encore [là](https://wiki.octave.org/Octave_for_macOS) pour MacOS)
+### Étapes préliminaires (if not using the CeleST code given)
+To run `CeleST`, several steps are needed:
+1. Download the source code from  http://celest.mbb.rutgers.edu/
+2. Install **Octave** ([here](https://wiki.octave.org/Octave_for_GNU/Linux) Linux system or [there](https://wiki.octave.org/Octave_for_macOS) for MacOS)
 
 ### Octave
-L'installation du logiciel Octave est simple.
-Si vous êtes *root* et sous un système *Ubuntu*, vous avez simplement à effectuer les commandes:
+Installation step are prety simple.
+
+If you are *root* user and on *Ubuntu* system, you only need to run the following commands:
 ```bash
 apt install octave
 apt install liboctave-dev  # development files
 ```
-Pour un système Linux différent, vous trouverez la démarche sur la page [wiki d'Octave](https://wiki.octave.org/Octave_for_GNU/Linux)
+For a different system than Linux, one can find the steps on the wiki of Octave ([wiki d'Octave](https://wiki.octave.org/Octave_for_GNU/Linux)).
 
-Dans le cas où vous n'êtes pas *root*, il est possible d'installer Octave en tant que distribution indépendante au sein d'Anaconda.
-Dans ce cas vous pouvez l'ajouter à l'environnement conda `v_wf_ntp`  (de sorte à avoir un environnement unique) où bien dans un second environnement conda.
-Une fois l'environnement activé, effectué la commande:
+If you are not a *root* user, it is possible to install Octave as an independante distribution within Anaconda.
+In that case, you can either add it to your conda virtual environment `v_wf_ntp` or create a new virtual environment.
+
+After you choose in which virtual environment you want to add octave, activate it and write the command:
 ```bash
 conda install -c conda-forge octave
 ```
-Il est également possible d'installer Octave avec `flatpak`:
+
+Last option listed here, you can install Octave with `flatpak`:
 ```bash
 flatpak install flathub org.octave.Octave
 ```
 
-L'installation d'Octave est complète. Vous pouvez le lancer via votre centre d'applications.
+Octave installation should be complete. You can run it from your application center.
 
-### Installation et exécution de CeleST
+### CeleST modification
 
 CeleST source code can be found in the repository Elegant-Elegans for simplicity. It has been slighly modified to work with recent version of Octave or Matlab. Thus it should work directly.
 
 !!! warning
    `CeleST` code is in Matlab and has been written few years ago. So the code is obsolete.
 
-If one want tot execute CeleST from the orignal source code, here are the steps you have to follow to make it work:
+If one want to use CeleST from the orignal source code, here are the steps you have to follow to make it work:
 1. unzip the file `'source code.zip'`:
    ```bash
    unzip 'source code.zip' -d /path/to/the/desired/directory/celest
