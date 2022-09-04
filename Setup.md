@@ -233,7 +233,7 @@ Installation of `WF_NTP` should be complete, you can run the program with the co
    ```
    > Virtual environment is correctly created if `v_wf_ntp` appears between parentheses at the beginning of the line in the prompt.
 
-##### Exécution
+##### Execution
 1. In the Anaconda Prompt, go to the folder `WF_NTP`
    ```bash
    cd path\to\Elegant-Elegans\WF_NTP
@@ -244,7 +244,7 @@ Installation of `WF_NTP` should be complete, you can run the program with the co
    ```
 
 ### CeleST setup
-### Étapes préliminaires (if not using the CeleST code given)
+### Preliminaries steps (if not using the CeleST code given)
 To run `CeleST`, several steps are needed:
 1. Download the source code from  http://celest.mbb.rutgers.edu/
 2. Install **Octave** ([here](https://wiki.octave.org/Octave_for_GNU/Linux) Linux system or [there](https://wiki.octave.org/Octave_for_macOS) for MacOS)
