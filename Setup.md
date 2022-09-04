@@ -49,6 +49,7 @@ L'installation est complète.
    conda activate  v_wf_ntp
    ```
 > **Note**
+>
 > Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge grâce à la commande:
 > ```bash
 > conda config --append channels conda-forge
