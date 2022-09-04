@@ -161,7 +161,6 @@ L'interface de `CeleST` s'ouvre, vous pouvez alors utiliser le programme.
 - [WF_NTP setup](#wf_ntp-setup)
 - [CeleST setup](#celest-setup)
 
-## Setup
 ## Introduction (english version)
 
 Elegant-Elegans is based on 2 tools used by the academic biological community:
@@ -213,12 +212,11 @@ The installation should be complete.
 > ```bash
 > conda config --append channels conda-forge
   ```
-
 3. Install the libraries gather in `conda_wf_ntp_requirements.txt` with the command:
    ```bash
    conda install --file conda_wf_ntp_requirements.txt
    ```
-3. Copy the file `run_script/multiwormtracker_app` at the root of the repository `WF_NTP/`
+4. Copy the file `run_script/multiwormtracker_app` at the root of the repository `WF_NTP/`
 
 Installation of `WF_NTP` should be complete, you can run the program with the command `./multiwormtracker_app` or double click on it.
 
@@ -313,7 +311,7 @@ If one want to use CeleST from the orignal source code, here are the steps you h
 
 `CeleST` interface should be opening, you can use `CelesT` with Octave.
 
-##### interface ligne de commande
+##### Command Line Interface (CLI)
 
 1. `cd source_code`
 2. `octave --eval "run(CeleST.m)"`
