@@ -48,11 +48,11 @@ L'installation est complète.
    ```bash
    conda activate  v_wf_ntp
    ```
-> ![INFO]
-> Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge grâce à la commande:
-> ```bash
->  conda config --append channels conda-forge
-> ```
+!!! info
+   Si vous utilisez miniconda a la place d'anaconda pensez a ajouter le channel conda-forge grâce à la commande:
+   ```bash
+    conda config --append channels conda-forge
+   ```
 
 3. Installer les différentes librairies rassemblées dans le fichier `conda_wf_ntp_requirements.txt` via la commande:
    ```bash
