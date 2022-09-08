@@ -1,0 +1,15 @@
+#s3://lab-nematode/raw/220503_TPS_ACR085/crawling_zoom113_10ms_100img/Default/
+#s3://lab-nematode/raw/220503_TPS_ACR085/trashing_zoom113_10ms_100img/Default/
+#s3://lab-nematode/raw/220503_TPS_ACR125/crawling_zoom113_10ms_100img/Default/
+#s3://lab-nematode/raw/220503_TPS_ACR125/thrashing_zoom113_10ms_100img/Default/
+#s3://lab-nematode/raw/220503_TPS_N2/zoom113_20ms_2/Default/
+#s3://lab-nematode/raw/220503_TPS_N2/zoom197_20ms_1/Default/
+#s3://lab-nematode/raw/220503_TPS_N2/zoom197_20ms_2/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/crawl/ACR125_50ms_1/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/crawl/ACR125_50ms_2_1/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/crawl/ACR125_burst_1/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/crawl/ACR125_burst_3_1/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/swim/acr125_burst_1/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/swim/acr125_burst_2/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/swim/acr125_burst_3/Default/
+s3://lab-nematode/220427_BF_RC7_30ms_11.3x/swim/acr125_burst_4_2/Default/
