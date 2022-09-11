@@ -64,7 +64,10 @@ def save_settings(settings):
     try:
         os.mkdir(settings["save_as"])
     except OSError:
-        print('Warning: job folder "%s" already created, overwriting.' % settings["save_as"])
+        print(
+            'Warning: job folder "%s" already created, overwriting.'
+            % settings["save_as"]
+        )
 
     settingsfilename = os.path.join(settings["save_as"], "settings.json")
     with open(settingsfilename, "w") as f:
@@ -110,7 +113,12 @@ def run_tracker(settings, stdout_queue=None):
             try:
                 im[rr, cc] = 1
             except IndexError:
-                print('Region "', key, '" cannot be applied to video', settings["video_filename"])
+                print(
+                    'Region "',
+                    key,
+                    '" cannot be applied to video',
+                    settings["video_filename"],
+                )
                 print("Input image sizes do not match.")
                 return None, None
             all_regions += im
@@ -209,7 +217,6 @@ class Video:
 def track_all_locations(video, settings, stdout_queue):
     """Track and get all locations."""
 
-
     def get_Z_brightness(zi):
         if settings["keep_paralyzed_method"]:
             return find_Z_with_paralyzed(video, settings, *zi)
@@ -217,11 +224,17 @@ def track_all_locations(video, settings, stdout_queue):
             return find_Z(video, settings, *zi)
 
     apply_indeces = list(
-        map(int, list(np.linspace(0, len(video), len(video) // settings["use_images"] + 2)))
+        map(
+            int,
+            list(np.linspace(0, len(video), len(video) // settings["use_images"] + 2)),
+        )
     )
     apply_indeces = list(zip(apply_indeces[:-1], apply_indeces[1:]))
     Z_indeces = [
-        (max([0, i - settings["use_around"]]), min(j + settings["use_around"], len(video)))
+        (
+            max([0, i - settings["use_around"]]),
+            min(j + settings["use_around"], len(video)),
+        )
         for i, j in apply_indeces
     ]
 
@@ -285,7 +298,9 @@ def process_frame(settings, Z, mean_brightness, nframes, args=None, return_plot=
     labeled, _ = mh.label(frame_after_close, np.ones((3, 3), bool))
     sizes = mh.labeled.labeled_size(labeled)
 
-    remove = np.where(np.logical_or(sizes < settings["min_size"], sizes > settings["max_size"]))
+    remove = np.where(
+        np.logical_or(sizes < settings["min_size"], sizes > settings["max_size"])
+    )
     labeled_removed = mh.labeled.remove_regions(labeled, remove)
     labeled_removed, n_left = mh.labeled.relabel(labeled_removed)
 
@@ -298,7 +313,8 @@ def process_frame(settings, Z, mean_brightness, nframes, args=None, return_plot=
             "centroid": props[j].centroid,
             "eccentricity": props[j].eccentricity,
             "area_eccentricity": props[j].eccentricity,
-            "minor_axis_length": props[j].minor_axis_length / (props[j].major_axis_length + 0.001),
+            "minor_axis_length": props[j].minor_axis_length
+            / (props[j].major_axis_length + 0.001),
             "coords": props[j].coords,
             "frame_width": frame_width,
         }
@@ -403,14 +419,18 @@ def activity_index(data):
     activity_indices = []
     df_copy = data[["frame", "coords", "bends"]].copy()
     frame_width = data["frame_width"].iloc[0]
-    df_copy['coords'] = df_copy['coords'].apply(coords_to_one_d, frame_width=frame_width)
-    
+    df_copy["coords"] = df_copy["coords"].apply(
+        coords_to_one_d, frame_width=frame_width
+    )
+
     # get the last bend number
     last_bend = data["bends"].max()
     bend = 0
     while bend <= last_bend:
         if bend % 2:
-            array = df_copy[["frame", "coords", "bends"]][df_copy["bends"].between(bend - 1, bend)].copy()
+            array = df_copy[["frame", "coords", "bends"]][
+                df_copy["bends"].between(bend - 1, bend)
+            ].copy()
             sum = list(set(array["coords"].sum()))
             total_area = len(sum)
             array["area"] = array["coords"].apply(lambda x: len(x))
@@ -450,7 +470,9 @@ def form_trajectories(loc, settings):
     data = pd.DataFrame(data)
     data.head()
     try:
-        track = tp.link_df(data, search_range=settings["max_dist_move"], memory=settings["memory"])
+        track = tp.link_df(
+            data, search_range=settings["max_dist_move"], memory=settings["memory"]
+        )
     except tp.linking.SubnetOversizeException:
         raise RuntimeError(
             "Linking problem too complex." " Reduce maximum move distance or memory."
@@ -513,14 +535,18 @@ def extract_data(track, settings):
         idx = area_ecc > settings["minimum_ecc"]
         if sum(idx) > 0:
             smooth_y = np.interp(x, x[idx], smooth_y[idx])
-            particle_dataframe.at[p, "Round ratio"] = 1.0 - float(sum(idx)) / float(len(idx))
+            particle_dataframe.at[p, "Round ratio"] = 1.0 - float(sum(idx)) / float(
+                len(idx)
+            )
         else:
             # 0.001,0.991,0.992 are dummy variables specifically picked
             # to deal with coilers, see protocol.
             lengthX = 0.001 / len(idx)
             smooth_y = np.arange(0.991, 0.992, lengthX)
             np.random.shuffle(smooth_y)
-            particle_dataframe.at[p, "Round ratio"] = 1.0 - float(sum(idx)) / float(len(idx))
+            particle_dataframe.at[p, "Round ratio"] = 1.0 - float(sum(idx)) / float(
+                len(idx)
+            )
 
         # Bends
         # coords['bends'] will be either a serie of 0 or a serie of increasing integer.
@@ -554,7 +580,7 @@ def extract_data(track, settings):
         if settings["skeletonize"]:
             particle_dataframe.at[p, "Area"] = np.median(area) * px_to_mm
         else:
-            particle_dataframe.at[p, "Area"] = np.median(area) * px_to_mm**2
+            particle_dataframe.at[p, "Area"] = np.median(area) * px_to_mm ** 2
 
         # Eccentricity
         particle_dataframe.at[p, "eccentricity"] = np.mean(area_ecc)
@@ -562,20 +588,17 @@ def extract_data(track, settings):
         # Velocity
         particle_dataframe.at[p, "Speed"] = extract_velocity(
             T[P == p], X[P == p], Y[P == p], settings
-        
         )
 
         # Max velocity: 90th percentile to avoid skewed results due to tracking
         # inefficiency
         particle_dataframe.at[p, "Max speed"] = extract_max_speed(
             T[P == p], X[P == p], Y[P == p], settings
-        
         )
 
         # Move per bend
         particle_dataframe.at[p, "Dist per bend"] = extract_move_per_bend(
             bl, T[P == p], X[P == p], Y[P == p], px_to_mm
-        
         )
 
         particle_dataframe.at[p, "bends"] = bl
@@ -593,7 +616,9 @@ def extract_data(track, settings):
         with warnings.catch_warnings():
             # Ignore ptp warnings as this is a numpy bug
             warnings.simplefilter("ignore")
-            particle_dataframe.at[index, "BPM"] = last_bend / np.ptp(T[P == index]) * 60 * fps
+            particle_dataframe.at[index, "BPM"] = (
+                last_bend / np.ptp(T[P == index]) * 60 * fps
+            )
             x = settings["limit_images_to"] / fps
             particle_dataframe.at[index, "bends_in_movie"] = (
                 last_bend / np.ptp(T[P == index]) * x * fps
@@ -603,7 +628,6 @@ def extract_data(track, settings):
             # )
         particle_dataframe.at[index, "Appears in frames"] = len(
             particle_dataframe.at[index, "bends"]
-        
         )
 
     # Cut off-tool for skewed statistics
@@ -667,7 +691,7 @@ def extract_data(track, settings):
 
     particle_dataframe.loc[:, "Moving"] = np.logical_or(
         particle_dataframe.loc[:, "BPM"] > settings["maximum_bpm"],
-        particle_dataframe.loc[:, "Speed"] > settings["maximum_velocity"]
+        particle_dataframe.loc[:, "Speed"] > settings["maximum_velocity"],
     )
 
     return dict(
@@ -682,7 +706,6 @@ def extract_data(track, settings):
 # =============================================================================
 # --- Utilities Functions ---
 # =============================================================================
-
 
 
 def find_Z(video, settings, i0, i1):
@@ -850,7 +873,9 @@ def extract_velocity(tt, xx, yy, settings):
     dxx = (np.roll(xx, ftev) - xx)[ftev:]
     dyy = (np.roll(yy, ftev) - yy)[ftev:]
     velocity = (
-        settings["px_to_mm"] * settings["fps"] * np.median(np.sqrt(dxx**2 + dyy**2) / dtt)
+        settings["px_to_mm"]
+        * settings["fps"]
+        * np.median(np.sqrt(dxx ** 2 + dyy ** 2) / dtt)
     )
     return velocity
 
@@ -865,7 +890,7 @@ def extract_max_speed(tt, xx, yy, settings):
     percentile = (
         settings["px_to_mm"]
         * settings["fps"]
-        * np.percentile((np.sqrt(dxx**2 + dyy**2) / dtt), 90)
+        * np.percentile((np.sqrt(dxx ** 2 + dyy ** 2) / dtt), 90)
     )
     return percentile
 
@@ -900,7 +925,10 @@ def write_stats(settings, results, f, paralyzed_stats=True, prepend="", mask=Non
     if settings["cutoff_filter"]:
         if mask is None:
             # Meaningless if mask != None
-            f.write("Total particles: %i\n" % results["cutoff_filter_data"]["original_particles"])
+            f.write(
+                "Total particles: %i\n"
+                % results["cutoff_filter_data"]["original_particles"]
+            )
         else:
             f.write("Total particles: Not saved for regions\n")
     else:
@@ -911,7 +939,10 @@ def write_stats(settings, results, f, paralyzed_stats=True, prepend="", mask=Non
         f.write("\nCUT-OFF tool/filters\n")
 
         # Not saved for cutoff_filter
-        f.write("Max particles present at same time: %i\n" % stats["max_number_worms_present"])
+        f.write(
+            "Max particles present at same time: %i\n"
+            % stats["max_number_worms_present"]
+        )
         f.write("\n")
         if settings["cutoff_filter"]:
             # Meaningless if mask != None
@@ -953,13 +984,25 @@ def write_stats(settings, results, f, paralyzed_stats=True, prepend="", mask=Non
     f.write(prepend + "BPM Median: %.5f\n" % stats["bpm_median"])
 
     f.write(prepend + "Activity index Mean: %.5f\n" % stats["activity_index_mean"])
-    f.write(prepend + "Activity index Standard deviation: %.5f\n" % stats["activity_index_std"])
-    f.write(prepend + "Activity index Error on Mean: %.5f\n" % stats["activity_index_mean_std"])
+    f.write(
+        prepend
+        + "Activity index Standard deviation: %.5f\n" % stats["activity_index_std"]
+    )
+    f.write(
+        prepend
+        + "Activity index Error on Mean: %.5f\n" % stats["activity_index_mean_std"]
+    )
     f.write(prepend + "Activity index Median: %.5f\n" % stats["activity_index_median"])
 
     f.write(prepend + "Bends in movie Mean: %.5f\n" % stats["bends_in_movie_mean"])
-    f.write(prepend + "Bends in movie Standard deviation: %.5f\n" % stats["bends_in_movie_std"])
-    f.write(prepend + "Bends in movie Error on Mean: %.5f\n" % stats["bends_in_movie_mean_std"])
+    f.write(
+        prepend
+        + "Bends in movie Standard deviation: %.5f\n" % stats["bends_in_movie_std"]
+    )
+    f.write(
+        prepend
+        + "Bends in movie Error on Mean: %.5f\n" % stats["bends_in_movie_mean_std"]
+    )
     f.write(prepend + "Bends in movie Median: %.5f\n" % stats["bends_in_movie_median"])
 
     f.write(prepend + "Speed Mean: %.6f\n" % stats["vel_mean"])
@@ -968,23 +1011,39 @@ def write_stats(settings, results, f, paralyzed_stats=True, prepend="", mask=Non
     f.write(prepend + "Speed Median: %.6f\n" % stats["vel_median"])
 
     f.write(prepend + "90th Percentile speed Mean: %.6f\n" % stats["max_speed_mean"])
-    f.write(prepend + "90th Percentile speed Standard deviation: %.6f\n" % stats["max_speed_std"])
-    f.write(prepend + "90th Percentile speed Error on mean: %.6f\n" % stats["max_speed_mean_std"])
+    f.write(
+        prepend
+        + "90th Percentile speed Standard deviation: %.6f\n" % stats["max_speed_std"]
+    )
+    f.write(
+        prepend
+        + "90th Percentile speed Error on mean: %.6f\n" % stats["max_speed_mean_std"]
+    )
     if np.isnan(stats["move_per_bend_mean"]):
         f.write(prepend + "Dist per bend Mean: nan\n")
         f.write(prepend + "Dist per bend Standard deviation: nan\n")
         f.write(prepend + "Dist per bend Error on Mean: nan\n")
     else:
         f.write(prepend + "Dist per bend Mean: %.6f\n" % stats["move_per_bend_mean"])
-        f.write(prepend + "Dist per bend Standard deviation: %.6f\n" % stats["move_per_bend_std"])
-        f.write(prepend + "Dist per bend Error on Mean: %.6f\n" % stats["move_per_bend_mean_std"])
+        f.write(
+            prepend
+            + "Dist per bend Standard deviation: %.6f\n" % stats["move_per_bend_std"]
+        )
+        f.write(
+            prepend
+            + "Dist per bend Error on Mean: %.6f\n" % stats["move_per_bend_mean_std"]
+        )
     if paralyzed_stats:
         f.write(prepend + "Moving worms: %i\n" % stats["n_moving"])
         f.write(prepend + "Paralyzed worms: %i\n" % stats["n_paralyzed"])
         f.write(prepend + "Total worms: %i\n" % stats["max_number_worms_present"])
-        f.write(prepend + "Moving ratio: %.6f\n" % (float(stats["n_moving"]) / stats["count"]))
         f.write(
-            prepend + "Paralyzed ratio: %.6f\n" % (float(stats["n_paralyzed"]) / stats["count"])
+            prepend
+            + "Moving ratio: %.6f\n" % (float(stats["n_moving"]) / stats["count"])
+        )
+        f.write(
+            prepend
+            + "Paralyzed ratio: %.6f\n" % (float(stats["n_paralyzed"]) / stats["count"])
         )
         if stats["n_paralyzed"] > 0:
             f.write(
@@ -1007,18 +1066,26 @@ def write_stats(settings, results, f, paralyzed_stats=True, prepend="", mask=Non
     f.write(prepend + "Area Error on Mean: %.6f\n" % stats["area_mean_std"])
 
     f.write(prepend + "Round ratio Mean: %.6f\n" % stats["round_ratio_mean"])
-    f.write(prepend + "Round ratio Standard deviation: %.6f\n" % stats["round_ratio_std"])
-    f.write(prepend + "Round ratio Error on mean: %.6f\n" % stats["round_ratio_mean_std"])
+    f.write(
+        prepend + "Round ratio Standard deviation: %.6f\n" % stats["round_ratio_std"]
+    )
+    f.write(
+        prepend + "Round ratio Error on mean: %.6f\n" % stats["round_ratio_mean_std"]
+    )
 
     f.write(prepend + "Eccentricity Mean: %.6f\n" % stats["eccentricity_mean"])
-    f.write(prepend + "Eccentricity Standard deviation: %.6f\n" % stats["eccentricity_std"])
-    f.write(prepend + "Eccentricity Error on mean: %.6f\n" % stats["eccentricity_mean_std"])
+    f.write(
+        prepend + "Eccentricity Standard deviation: %.6f\n" % stats["eccentricity_std"]
+    )
+    f.write(
+        prepend + "Eccentricity Error on mean: %.6f\n" % stats["eccentricity_mean_std"]
+    )
 
 
 def mean_std(x, appears_in):
     mean = np.sum(x * appears_in) / np.sum(appears_in)
-    second_moment = np.sum(x**2 * appears_in) / np.sum(appears_in)
-    std = np.sqrt(second_moment - mean**2)
+    second_moment = np.sum(x ** 2 * appears_in) / np.sum(appears_in)
+    std = np.sqrt(second_moment - mean ** 2)
     return mean, std
 
 
@@ -1047,11 +1114,15 @@ def statistics(results, settings, mask=None):
     bpm_median = np.median(df.loc[:, "BPM"])
     bpm_mean_std = bpm_std / np.sqrt(max_number_worms_present)
 
-    activity_index_mean, activity_index_std = mean_std(df.loc[:, "activity_index"], appears_in)
+    activity_index_mean, activity_index_std = mean_std(
+        df.loc[:, "activity_index"], appears_in
+    )
     activity_index_median = np.median(df.loc[:, "activity_index"])
     activity_index_mean_std = activity_index_std / np.sqrt(max_number_worms_present)
 
-    bends_in_movie_mean, bends_in_movie_std = mean_std(df.loc[:, "bends_in_movie"], appears_in)
+    bends_in_movie_mean, bends_in_movie_std = mean_std(
+        df.loc[:, "bends_in_movie"], appears_in
+    )
     bends_in_movie_median = np.median(df.loc[:, "bends_in_movie"])
     bends_in_movie_mean_std = bends_in_movie_std / np.sqrt(max_number_worms_present)
 
@@ -1068,14 +1139,17 @@ def statistics(results, settings, mask=None):
     round_ratio_mean, round_ratio_std = mean_std(df.loc[:, "Round ratio"], appears_in)
     round_ratio_mean_std = round_ratio_std / np.sqrt(max_number_worms_present)
 
-    eccentricity_mean, eccentricity_std = mean_std(df.loc[:, "eccentricity"], appears_in)
+    eccentricity_mean, eccentricity_std = mean_std(
+        df.loc[:, "eccentricity"], appears_in
+    )
     eccentricity_mean_std = eccentricity_std / np.sqrt(max_number_worms_present)
 
     # Ignore nan particles for move_per_bend
     mask_appear = np.logical_not(np.isnan(df.loc[:, "Dist per bend"]))
     if np.any(mask_appear):
         move_per_bend_mean, move_per_bend_std = mean_std(
-            df.loc[mask_appear, "Dist per bend"], df.loc[mask_appear, "Appears in frames"]
+            df.loc[mask_appear, "Dist per bend"],
+            df.loc[mask_appear, "Appears in frames"],
         )
         move_per_bend_mean_std = move_per_bend_std / np.sqrt(
             max([np.sum(mask_appear), max_number_worms_present])
@@ -1179,7 +1253,12 @@ def write_results_file(results, settings):
         moving_mask = df.loc[:, "Moving"]
 
         write_stats(
-            settings, results, f, paralyzed_stats=False, prepend="Moving ", mask=moving_mask
+            settings,
+            results,
+            f,
+            paralyzed_stats=False,
+            prepend="Moving ",
+            mask=moving_mask,
         )
 
         # Raw stats
@@ -1252,7 +1331,9 @@ def print_images(settings, bends):
     T = track["frame"]
     output_overlayed_images = settings["output_overlayed_images"]
     if output_overlayed_images != 0:
-        up_to = len(set(T)) if output_overlayed_images is None else output_overlayed_images
+        up_to = (
+            len(set(T)) if output_overlayed_images is None else output_overlayed_images
+        )
         for t in range(up_to):
             print_frame(settings, t, P, T, bends, track)
     plt.clf()
@@ -1271,7 +1352,9 @@ def small_imshow(settings, img, *args, **kwargs):
             preserve_range=True,
         )
     plt.clf()
-    plt.imshow(img, *args, extent=[0, original_shape[1], original_shape[0], 0], **kwargs)
+    plt.imshow(
+        img, *args, extent=[0, original_shape[1], original_shape[0], 0], **kwargs
+    )
 
 
 def output_processing_frames(
