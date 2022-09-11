@@ -32,6 +32,8 @@ The only significant difference is that CeleST's value should be always negative
 - BrushStoke(CeleST) = -BrushStoke(WF-NTP)
 - ActivityIndex(CeleST) = -ActivityIndex(WF-NTP)
 
+> **N
+
 Output format
 -------------
 
