@@ -348,7 +348,7 @@ def process_frame(settings, Z, mean_brightness, nframes, args=None, return_plot=
 
 
 def process_frames(video, settings, i0, i1, Z, mean_brightness):
-    """Frocess frames from i0 to i1."""
+    """Process frames from i0 to i1."""
     func = functools.partial(process_frame, settings, Z, mean_brightness, len(video))
 
     def args():
@@ -358,25 +358,59 @@ def process_frames(video, settings, i0, i1, Z, mean_brightness):
     return map(func, args())
 
 
-def coords_to_one_d(array, frame_width):
-    one_d = []
+def coords_to_one_d(array: np.ndarray, frame_width: int):
+    """Projects 2 dimensional coordinates into one dimensional coordinate system.
+
+
+
+    Args:
+        array (np.ndarray): numpy array of numpy arrays of 2 elements.
+        frame_width (int): width of the image we are dealing with.
+
+    Returns:
+        projected_coordinates: list of int corresponding to the coordinates in 1D of the
+            inputed coordinates.
+    
+    Example:
+        Considering a coordinate (x_i ; y_i) = (2 ; 8) of a pixel in a 10x10 image.
+        We can projected these coordinates into a 1 dimensional coordinate system:
+        new_coordinate = x_i + y_i x image_width
+
+        The projection from the 2 dimensional to the 1 dimensional coordinate system
+        is bijective (meaning the projection of each 2D coordinates pixel is unique). 
+    """
+    projected_coordinates = []
     # TODO get the video dimentions somehow
     for arr in array:
-        one_d.append(arr[1] * frame_width + arr[0])
-    return one_d
+        projected_coordinates.append(arr[1] * frame_width + arr[0])
+    return projected_coordinates
 
 
 def activity_index(data):
-    test = data
+    """ Activity index calculations.
+
+    The activity index corresponds to the number of pixels painted by a worm's body
+    between two amplitude of this same worm. Here the activity index is calculated
+    for one particule accross all the frames.
+
+    Args:
+        data (pd.DataFrame): dataframe containing properties of one particle
+            accross all frames.
+
+    Returns:
+        activity_indices: activity index values of one particles across the frames. 
+    """
     activity_indices = []
+    df_copy = data[["frame", "coords", "bends"]].copy()
     frame_width = data["frame_width"].iloc[0]
-    test["coords"] = test["coords"].apply(coords_to_one_d, frame_width=frame_width)
+    df_copy['coords'] = df_copy['coords'].apply(coords_to_one_d, frame_width=frame_width)
+    
     # get the last bend number
     last_bend = data["bends"].max()
     bend = 0
     while bend <= last_bend:
         if bend % 2:
-            array = test[["frame", "coords", "bends"]][test["bends"].between(bend - 1, bend)]
+            array = df_copy[["frame", "coords", "bends"]][df_copy["bends"].between(bend - 1, bend)].copy()
             sum = list(set(array["coords"].sum()))
             total_area = len(sum)
             array["area"] = array["coords"].apply(lambda x: len(x))
@@ -489,6 +523,9 @@ def extract_data(track, settings):
             particle_dataframe.at[p, "Round ratio"] = 1.0 - float(sum(idx)) / float(len(idx))
 
         # Bends
+        # coords['bends'] will be either a serie of 0 or a serie of increasing integer.
+        # In the second case, the integer correspond to the bend_index: Each frame
+        # correspond to a ongoing bend. The bend index provides us which specific bend.
         bend_times = extract_bends(x, smooth_y, settings)
         if len(bend_times) < settings["minimum_bends"]:
             drop_list.append(p)
@@ -503,6 +540,8 @@ def extract_data(track, settings):
         coords = coords.reset_index()
         coords["bends"] = 0
         coords["bends"] = bl
+
+        # Activity index
         activity_indices = activity_index(coords)
 
         if len(activity_indices):
@@ -628,8 +667,7 @@ def extract_data(track, settings):
 
     particle_dataframe.loc[:, "Moving"] = np.logical_or(
         particle_dataframe.loc[:, "BPM"] > settings["maximum_bpm"],
-        particle_dataframe.loc[:, "Speed"] > settings["maximum_velocity"],
-    ,
+        particle_dataframe.loc[:, "Speed"] > settings["maximum_velocity"]
     )
 
     return dict(
@@ -703,7 +741,6 @@ def find_skel_endpoints(skel):
         np.array([[1, 2, 0], [2, 1, 0], [0, 0, 0]]),
         np.array([[2, 0, 0], [1, 1, 0], [2, 0, 0]]),
         np.array([[0, 0, 0], [2, 1, 0], [1, 2, 0]]),
-    ,
     ]
 
     ep = 0
@@ -1232,7 +1269,6 @@ def small_imshow(settings, img, *args, **kwargs):
             np.asarray(img, float),
             (int(img.shape[0] * factor), int(img.shape[1] * factor)),
             preserve_range=True,
-        ,
         )
     plt.clf()
     plt.imshow(img, *args, extent=[0, original_shape[1], original_shape[0], 0], **kwargs)
