@@ -67,7 +67,7 @@ L'installation de `WF_NTP` est complète, vous pouvez lancer le programme avec l
    ```
 2. Créer un environnement conda virtuel `v_wf_ntp`, puis l'activer :
    ```bash
-   conda env create -f env_wf_ntp.yml
+   conda env create --file env_wf_ntp.yml
    conda activate v_wf_ntp
    ```
    > L'environnement est bien activé si `v_wf_ntp` apparaît entre parenthèses au début de la ligne de commande.
