@@ -5,7 +5,6 @@ from curses import meta
 from json import JSONDecodeError
 from os import F_OK, R_OK, access, path
 from os.path import exists as file_exists
-from pathlib import Path
 
 import cv2 as cv
 import pandas as pd
